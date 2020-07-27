@@ -4,17 +4,26 @@ import Home from './containers/Home.js';
 import Community from './containers/Community.js';
 import Organizations from './containers/Organizations.js';
 import NavBar from './components/NavBar.js'
+import SignUpModal from './components/SignUpModal.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      current_page: 'home'
+      current_page: 'home',
+
+      user_info: {
+        email: '',
+        username: '',
+        password: '',
+        zipcode: ''
+      }
     };
   }
   //maybe we should consider react router?
   render() {
+
     switch (this.state.current_page) {
       case 'home': {
         return (
@@ -52,6 +61,7 @@ class App extends Component {
       default: {
         return (
           <div className="App">
+            <SignUpModal />
             <NavBar
               onPageClickedHandler={this.navbarPageSwitchedHandler}
               onSignUpClickedHandler={this.signUpPageHandler}
@@ -72,6 +82,18 @@ class App extends Component {
 
   signUpPageHandler = (event) => {
     //TODO: show modal that asks for signup
+  }
+
+  signUpModalSubmitHandler = (username, email, password, zipcode) => {
+    this.setState({
+      user_info:{
+        email: email,
+        username: username,
+        password: password,
+        zipcode: zipcode
+      }
+    });
+    //TODO: make API call to sign up a new user
   }
 }
 
