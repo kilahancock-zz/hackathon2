@@ -3,7 +3,7 @@ import './App.css';
 import Home from './containers/Home.js';
 import Community from './containers/Community.js';
 import Organizations from './containers/Organizations.js';
-import NavBar from './components/NavBar.js'
+// import NavBar from './components/NavBar.js'
 
 class App extends Component {
   constructor(props) {
@@ -19,10 +19,10 @@ class App extends Component {
       case 'home': {
         return (
           <div className="App">
-            <NavBar
+            {/* <NavBar
               onPageClickedHandler={this.navbarPageSwitchedHandler}
               onSignUpClickedHandler={this.signUpPageHandler}
-            />
+            /> */}
             <Home />
           </div>
         )
@@ -30,10 +30,10 @@ class App extends Component {
       case 'community': {
         return (
           <div className="App">
-            <NavBar
+            {/* <NavBar
               onPageClickedHandler={this.navbarPageSwitchedHandler}
               onSignUpClickedHandler={this.signUpPageHandler}
-            />
+            /> */}
             <Community />
           </div>
         )
@@ -41,10 +41,10 @@ class App extends Component {
       case 'organizations': {
         return (
           <div className="App">
-            <NavBar
+            {/* <NavBar
               onPageClickedHandler={this.navbarPageSwitchedHandler}
               onSignUpClickedHandler={this.signUpPageHandler}
-            />
+            /> */}
             <Organizations />
           </div>
         )
@@ -52,10 +52,10 @@ class App extends Component {
       default: {
         return (
           <div className="App">
-            <NavBar
+            {/* <NavBar
               onPageClickedHandler={this.navbarPageSwitchedHandler}
               onSignUpClickedHandler={this.signUpPageHandler}
-            />
+            /> */}
             <Home />
           </div>
         )
