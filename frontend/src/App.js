@@ -15,6 +15,7 @@ class App extends Component {
   }
   //maybe we should consider react router?
   render() {
+<<<<<<< Updated upstream
     switch (this.state.current_page) {
       case 'home': {
         return (
@@ -61,6 +62,49 @@ class App extends Component {
         )
       }
     }
+=======
+    return(
+    <div className="App">
+      
+      <Home></Home>
+    </div>
+  //   switch(this.state.current_page) {
+  //     case 'home': {
+  //       return (
+  //         <div className="App">
+  //           <NavBar />
+  //           <Home />
+  //         </div>
+  //       )
+  //     }
+  //     case 'community': {
+  //       return (
+  //         <div className="App">
+  //           <NavBar />
+  //           <Community />
+  //         </div>
+  //       )
+  //     }
+  //     case 'organizations': {
+  //       return (
+  //         <div className="App">
+  //           <NavBar />
+  //           <Organizations />
+  //         </div>
+  //       )
+  //     }
+  //     default: {
+  //       return (
+  //         <div className="App">
+  //           <NavBar />
+  //           <Home />
+  //         </div>
+  //       )
+  //     } 
+  //   }
+  // }
+    )
+>>>>>>> Stashed changes
   }
 
   // Used by the navbar when one of the tabs is selected that triggers a page

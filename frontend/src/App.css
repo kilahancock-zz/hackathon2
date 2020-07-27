@@ -3,7 +3,14 @@
     margin: 0;
     padding:0;
 }
+<<<<<<< Updated upstream
 
+=======
+#home {
+    height: 100vh;
+    position: relative;
+}
+>>>>>>> Stashed changes
 #home::before  {
     content: '';
     background-image: url('./assets/person-s-hand-3162828-min.jpg');
@@ -16,6 +23,7 @@
     left: 0px;
     bottom: 0px;
 }
+<<<<<<< Updated upstream
 .home-container {
     position: relative;
     height: 100vh;
@@ -28,4 +36,8 @@
     position: absolute;
     left: 50%;
     top: 50%;
+=======
+.container {
+    position: relative;
+>>>>>>> Stashed changes
 }
