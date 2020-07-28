@@ -56,10 +56,10 @@ class App extends Component {
             <Route path="/organizations">
               <Organizations />
             </Route>
-          </Switch>
-          <Route path="*">
+            <Route exact path="*">
              <NotFound></NotFound>
             </Route>
+          </Switch>
         </Router>
       </div>
     )

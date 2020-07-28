@@ -31,7 +31,7 @@ class OrgTable extends Component {
       <CardColumns className="px-4 mt-5">
           {this.state.orgs.map(org => (
             <Card className="text-center p-4 mb-4 orgCell">
-              <Card.Title class="title my-2"><a href={org.websiteURL} target="_blank">{org.charityName}</a></Card.Title>
+              <Card.Title className="title my-2"><a href={org.websiteURL} target="_blank">{org.charityName}</a></Card.Title>
               <Card.Text>{org.mission}</Card.Text>
               <Card.Footer>{org.mailingAddress.city}, {org.mailingAddress.stateOrProvince}</Card.Footer>
             </Card>
