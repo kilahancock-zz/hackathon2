@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardColumns } from 'react-bootstrap'
+import { Card, CardColumns, Dropdown } from 'react-bootstrap'
 import '../../css/org-table.css';
 
 class OrgTable extends Component {
@@ -29,16 +29,63 @@ class OrgTable extends Component {
   render() {
     return (
       <div>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-          <button class="dropdown-item" type="button">Action</button>
-          <button class="dropdown-item" type="button">Another action</button>
-          <button class="dropdown-item" type="button">Something else here</button>
-        </div>
-      </div>
+      <Dropdown className="ml-5">
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+          Select State
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="overflow-auto" style={{ maxHeight: "260px" }}>
+          <Dropdown.Item onclick={this.getOrgs()}>AL</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>AS</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>AZ</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>AR</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>CA</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>CO</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>CT</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>DE</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>FL</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>GA</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>HI</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>ID</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>IL</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>IN</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>IA</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>KS</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>KY</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>LA</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>ME</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>MD</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>MA</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>MI</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>MN</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>MS</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>MO</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>MT</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>NE</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>NV</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>NH</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>NJ</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>NM</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>NY</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>NC</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>ND</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>OH</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>OK</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>OR</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>PA</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>RI</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>SC</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>SD</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>TN</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>TX</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>UT</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>VT</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>VA</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>WA</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>WV</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>WI</Dropdown.Item>
+          <Dropdown.Item onclick={this.getOrgs()}>WY</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
       <CardColumns className="px-4 mt-5">
           {this.state.orgs.map(org => (
             <Card className="text-center p-4 mb-4 orgCell">
