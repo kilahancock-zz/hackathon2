@@ -28,6 +28,17 @@ class OrgTable extends Component {
   }
   render() {
     return (
+      <div>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <button class="dropdown-item" type="button">Action</button>
+          <button class="dropdown-item" type="button">Another action</button>
+          <button class="dropdown-item" type="button">Something else here</button>
+        </div>
+      </div>
       <CardColumns className="px-4 mt-5">
           {this.state.orgs.map(org => (
             <Card className="text-center p-4 mb-4 orgCell">
@@ -37,6 +48,7 @@ class OrgTable extends Component {
             </Card>
           ))}
       </CardColumns>
+      </div>
     );
   }
 
