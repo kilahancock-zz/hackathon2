@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
+	"io/ioutil"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -14,6 +15,10 @@ import (
 var (
 	l = zerolog.New(os.Stderr).With().Timestamp().Logger()
 )
+
+type Summary struct {
+	Message string `json:"message"`
+}
 
 func main() {
 	var cfg struct {
@@ -41,9 +46,37 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/health", func(w http.ResponseWriter, rr *http.Request) {
+		enableCors(&w);
 		_ = json.NewEncoder(w).Encode(map[string]interface{}{
 			"healthy": "ok",
 		})
+	})
+
+	router.HandleFunc("/login", func(w http.ResponseWriter, rr *http.Request) {
+		enableCors(&w);
+		
+		b, err := ioutil.ReadAll(rr.Body)
+		if err != nil {
+			panic(err)
+		}
+		//"message":"{\"username\":\"b\",\"email\":\"a@gmail.com\"}"}
+		l.Info().Msg(string(b)); 
+
+		// TODO: Figure out how to write body into a struct
+		// var su Summary;
+		// err3 := json.Unmarshal(b, &su)
+		// if err3 != nil {
+		// 	l.Info().Msg("Error #3");
+		// 	http.Error(w, err.Error(), http.StatusBadRequest)
+		// 	return
+		// }
+		// l.Info().Msg("Username -" + su.Message);
+
+		// _ = json.NewEncoder(w).Encode(map[string]interface{}{
+		// 	"login": "ok",
+		// 	"checkThis": string(b),
+		// 	"message": su.Message,
+		// })
 	})
 
 	l.Info().Msg("server running on port 3000")
@@ -51,4 +84,9 @@ func main() {
 	if err != nil {
 		l.Fatal().Err(err).Msg("unable to start server")
 	}
+}
+
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type")
 }
