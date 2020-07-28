@@ -14,13 +14,16 @@ class App extends Component {
       zip_code: '27517'
     };
   }
-//maybe we should consider react router?
+  //maybe we should consider react router?
   render() {
-    switch(this.state.current_page) {
+    switch (this.state.current_page) {
       case 'home': {
         return (
           <div className="App">
-            <NavBar />
+            <NavBar
+              onPageClickedHandler={this.navbarPageSwitchedHandler}
+              onSignUpClickedHandler={this.signUpPageHandler}
+            />
             <Home />
           </div>
         )
@@ -28,7 +31,10 @@ class App extends Component {
       case 'community': {
         return (
           <div className="App">
-            <NavBar />
+            <NavBar
+              onPageClickedHandler={this.navbarPageSwitchedHandler}
+              onSignUpClickedHandler={this.signUpPageHandler}
+            />
             <Community />
           </div>
         )
@@ -36,7 +42,10 @@ class App extends Component {
       case 'organizations': {
         return (
           <div className="App">
-            <NavBar />
+            <NavBar
+              onPageClickedHandler={this.navbarPageSwitchedHandler}
+              onSignUpClickedHandler={this.signUpPageHandler}
+            />
             <Organizations />
           </div>
         )
@@ -44,12 +53,26 @@ class App extends Component {
       default: {
         return (
           <div className="App">
-            <NavBar />
+            <NavBar
+              onPageClickedHandler={this.navbarPageSwitchedHandler}
+              onSignUpClickedHandler={this.signUpPageHandler}
+            />
             <Home />
           </div>
         )
-      } 
+      }
     }
+  }
+
+  // Used by the navbar when one of the tabs is selected that triggers a page
+  navbarPageSwitchedHandler = (event) => {
+    this.setState({
+      current_page: event.currentTarget.getAttribute('value')
+    })
+  }
+
+  signUpPageHandler = (event) => {
+    //TODO: show modal that asks for signup
   }
 }
 
