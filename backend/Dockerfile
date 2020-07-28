@@ -1,6 +1,6 @@
 FROM golang:1.14 as builder
 
-COPY backend /go/src/github.com/RedVentures/hackathon-go-base/
+COPY . /go/src/github.com/RedVentures/hackathon-go-base/
 
 WORKDIR /go/src/github.com/RedVentures/hackathon-go-base/cmd/server
 
