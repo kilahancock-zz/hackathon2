@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import Header from '../components/community/Header.js'
+import CommunityTabs from '../components/community/CommunityTabs.js';
 
 class Community extends Component {
     render() {
       return (
-        <p>hello</p>
+        <div>
+          <Header />
+          <CommunityTabs />
+        </div>
       )
     }
 }
