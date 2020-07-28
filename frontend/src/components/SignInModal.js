@@ -3,7 +3,8 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Component } from 'react';
-import Table from 'react-bootstrap/Table'
+import Table from 'react-bootstrap/Table';
+import classes from '../css/link.module.css';
 
 class SignInModal extends Component {
     constructor(props) {
@@ -16,8 +17,6 @@ class SignInModal extends Component {
     }
 
     render() {
-        console.log("Password: ", this.state.password);
-        console.log("Username: ", this.state.username);
         return (
             <Modal show={this.props.isShown} onHide={this.props.closeModal}>
                 <Modal.Header closeButton>
@@ -32,7 +31,8 @@ class SignInModal extends Component {
                     </Table>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.closeModal}>Close</Button>
+                <p>New User? Sign up <a className={classes.modalLink} onClick={this.props.openSignUpHandler}>here</a></p>
+                    <Button variant="secondary" onClick={this.props.closeModal}>Close</Button>
                     <Button variant="primary" onClick={this._submitClicked}>Sign In</Button>
                 </Modal.Footer>
             </Modal>
@@ -50,7 +50,7 @@ class SignInModal extends Component {
      * submitClickedHandler needs the entries in the order: username, email, password, zipcode
     */
     _submitClicked = () => {
-        this.props.submitClickedHandler(
+        this.props.submitModal(
             this.state.username,
             this.state.password,
         );
