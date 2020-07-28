@@ -15,7 +15,9 @@ const Navy = (props) => {
         <Nav.Item>
         <Nav.Link as={Link} to="/community" value="community" >My Community</Nav.Link>
         </Nav.Item>
-        <Nav.Link  value="organizations" >Local Organizations</Nav.Link>
+        <Nav.Item>
+        <Nav.Link as={Link} to="/organizations" value="community" >My Community</Nav.Link>
+        </Nav.Item>
         <Nav.Link>Sign Up</Nav.Link>
       </div>
     </Navbar>
