@@ -10,7 +10,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      current_page: 'organizations',
+      current_page: 'community',
       zip_code: '27517'
     };
   }
