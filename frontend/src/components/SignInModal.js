@@ -12,7 +12,6 @@ class SignInModal extends Component {
         this.state = {
             username: '',
             password: '',
-            isShown: true,
         };
     }
 
@@ -20,7 +19,7 @@ class SignInModal extends Component {
         console.log("Password: ", this.state.password);
         console.log("Username: ", this.state.username);
         return (
-            <Modal show={this.state.isShown} onHide={this.closeModal}>
+            <Modal show={this.props.isShown} onHide={this.props.closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Sign In</Modal.Title>
                 </Modal.Header>

@@ -15,15 +15,13 @@ class SignUpModal extends Component {
             password: '',
             password_reentered: '',
             zipcode: '',
-            isShown: true,
         };
     }
 
 
     render() {
-        console.log("State: ", this.state);
         return (
-            <Modal show={this.state.isShown} onHide={this.closeModal}>
+            <Modal show={this.props.isShown} onHide={this.props.closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Sign Up</Modal.Title>
                 </Modal.Header>
@@ -40,17 +38,11 @@ class SignUpModal extends Component {
                     <small>*Your zipcode is used to identify your community</small>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.closeModal}>Close</Button>
+                    <Button variant="secondary" onClick={this.props.closeModal}>Close</Button>
                     <Button variant="primary" onClick={this._submitClicked}>Create Account</Button>
                 </Modal.Footer>
             </Modal>
         );
-    }
-
-    closeModal = () => {
-        this.setState({
-            isOpen: false
-        })
     }
 
     /**
@@ -58,13 +50,12 @@ class SignUpModal extends Component {
      * submitClickedHandler needs the entries in the order: username, email, password, zipcode
     */
     _submitClicked = () => {
-        this.props.submitClickedHandler(
+        this.props.submitModal(
             this.state.username,
             this.state.email,
             this.state.password,
             this.state.zipcode
         );
-        this.closeModal();
     }
 
     _createTextInputRow = (label, onChangeHandler) => {
