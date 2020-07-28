@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import Header from '../components/organizations/Header.js';
+import OrgTable from '../components/organizations/OrgTable.js';
 
 class Organizations extends Component {
     render() {
       return (
-        <p>Organizations</p>
+        <div>
+          <Header />
+          <OrgTable />
+        </div>
       )
     }
 }

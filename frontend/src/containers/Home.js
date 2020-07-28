@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Image from 'react-bootstrap/Image'
-import Hand from '../assets/hand-globe-min.png'
 
 class Home extends Component {
   render() {
