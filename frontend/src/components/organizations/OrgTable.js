@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Card, CardColumns } from 'react-bootstrap'
 import '../../css/org-table.css';
 
 class OrgTable extends Component {
@@ -27,15 +28,15 @@ class OrgTable extends Component {
   }
   render() {
     return (
-      <div class="container orgGrid">
+      <CardColumns className="px-4 mt-5">
           {this.state.orgs.map(org => (
-            <div class="row orgCell">
-              <h2 class="title"><a href={org.websiteURL} target="_blank">{org.charityName}</a></h2><br></br>
-              <h6><b>{org.mailingAddress.city}, {org.mailingAddress.stateOrProvince}</b></h6>
-              <p>{org.mission}</p>
-            </div>
+            <Card className="text-center p-4 mb-4 orgCell">
+              <Card.Title class="title my-2"><a href={org.websiteURL} target="_blank">{org.charityName}</a></Card.Title>
+              <Card.Text>{org.mission}</Card.Text>
+              <Card.Footer>{org.mailingAddress.city}, {org.mailingAddress.stateOrProvince}</Card.Footer>
+            </Card>
           ))}
-      </div>
+      </CardColumns>
     );
   }
 
