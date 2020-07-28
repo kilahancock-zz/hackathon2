@@ -3,11 +3,8 @@ import './App.css';
 import Home from './containers/Home.js';
 import Community from './containers/Community.js';
 import Organizations from './containers/Organizations.js';
-import NavBar from './components/NavBar.js'
-import SignUpModal from './components/SignUpModal.js';
-import SignInModal from './components/SignInModal';
-import Navy from './components/Navy.js';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import Navy from './components/Navy.js'
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 
 class App extends Component {
   constructor(props) {
@@ -19,10 +16,8 @@ class App extends Component {
         username: '',
         password: '',
         zipcode: ''
-      },
-      current_page: 'organizations',
-      zip_code: '27517'
-    };
+      }
+    }
   }
   render() {
     return(
@@ -46,6 +41,10 @@ class App extends Component {
         </Router>
       </div>
     )
+  }
+ 
+  signUpPageHandler = (event) => {
+    //TODO: show modal that asks for signup
   }
 
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
