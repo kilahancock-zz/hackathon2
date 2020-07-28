@@ -6,14 +6,14 @@ import Organizations from './containers/Organizations.js';
 import NavBar from './components/NavBar.js'
 import SignUpModal from './components/SignUpModal.js';
 import SignInModal from './components/SignInModal';
+import Navy from './components/Navy.js';
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      current_page: 'home',
-
       user_info: {
         email: '',
         username: '',
@@ -24,66 +24,28 @@ class App extends Component {
       zip_code: '27517'
     };
   }
-  //maybe we should consider react router?
   render() {
-    switch (this.state.current_page) {
-      case 'home': {
-        return (
-          <div className="App">
-            <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            />
+    return(
+      <div className="App">
+        
+        <Router>
+        <div className="nav">
+        <Navy> </Navy>
+        </div>
+        <Switch>
+          <Route exact path="/">
             <Home />
-          </div>
-        )
-      }
-      case 'community': {
-        return (
-          <div className="App">
-            <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            />
-            <Community />
-          </div>
-        )
-      }
-      case 'organizations': {
-        return (
-          <div className="App">
-            <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            />
-            <Organizations />
-          </div>
-        )
-      }
-      default: {
-        return (
-          <div className="App">
-            <SignUpModal />
-            <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            />
-            <Home />
-          </div>
-        )
-      }
-    }
-  }
-
-  // Used by the navbar when one of the tabs is selected that triggers a page
-  navbarPageSwitchedHandler = (event) => {
-    this.setState({
-      current_page: event.currentTarget.getAttribute('value')
-    })
-  }
-
-  signUpPageHandler = (event) => {
-    //TODO: show modal that asks for signup
+          </Route>
+          <Route path="/community">
+            <Community/>
+          </Route>
+          <Route path="/organizations">
+            <Organizations/>
+          </Route>
+        </Switch>
+        </Router>
+      </div>
+    )
   }
 
   signUpModalSubmitHandler = (username, email, password, zipcode) => {

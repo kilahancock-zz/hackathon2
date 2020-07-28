@@ -1,1 +1,34 @@
-
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding:0;
+}
+#home::before  {
+    content: '';
+    background-image: url('./assets/person-s-hand-3162828-min.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: .5;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+}
+.nav {
+    position: relative;
+    z-index: 1;
+}
+.home-container {
+    position: relative;
+    height: 100vh;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+.title h1 {
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
