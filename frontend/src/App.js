@@ -10,7 +10,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      current_page: 'home'
+      current_page: 'organizations',
+      zip_code: '27517'
     };
   }
 //maybe we should consider react router?
