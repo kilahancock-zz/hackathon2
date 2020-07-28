@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Card, CardColumns, Dropdown, DropdownButton } from 'react-bootstrap'
+import { Card, CardColumns, Dropdown } from 'react-bootstrap'
+import ReactHtmlParser from 'react-html-parser';
 import '../../css/org-table.css';
 
 class OrgTable extends Component {
@@ -89,7 +90,7 @@ class OrgTable extends Component {
           {this.state.orgs.map(org => (
             <Card className="text-center p-4 mb-4 orgCell">
               <Card.Title class="title my-2"><a href={org.websiteURL} target="_blank">{org.charityName}</a></Card.Title>
-              <Card.Text>{org.mission}</Card.Text>
+              <Card.Text>{ReactHtmlParser(org.mission)}</Card.Text>
               <Card.Footer>{org.mailingAddress.city}, {org.mailingAddress.stateOrProvince}</Card.Footer>
             </Card>
           ))}
