@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Component } from 'react';
+import Table from 'react-bootstrap/Table'
 
 class SignUpModal extends Component {
     constructor(props) {
@@ -13,37 +14,45 @@ class SignUpModal extends Component {
             username: '',
             password: '',
             password_reentered: '',
-            zipcode: ''
+            zipcode: '',
+            isShown: true,
         };
     }
 
 
     render() {
+        console.log("State: ", this.state);
         return (
-            <Modal show={true} onHide={this.onClick}>
+            <Modal show={this.state.isShown} onHide={this.closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Sign Up</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    {this._createTextInput("Email", this._emailChangeHandler)}
-                    {this._createTextInput("User Name", this._usernameChangeHandler)}
-                    {this._createTextInput("Password", this._passwordChangeHandler)}
-                    {this._createTextInput("Re-enter Password", this._passwordReenterChangeHandler)}
-                    {this._createTextInput("Zipcode", this._zipcodeChangeHandler)}
+                <Modal.Body style={{ alignItems: "center", justifyContent: "center" }}>
+                    <Table size="sm" borderless>
+                        <tbody>
+                            {this._createTextInputRow("Email", this._emailChangeHandler)}
+                            {this._createTextInputRow("User Name", this._usernameChangeHandler)}
+                            {this._createTextInputRow("Password", this._passwordChangeHandler)}
+                            {this._createTextInputRow("Re-enter Password", this._passwordReenterChangeHandler)}
+                            {this._createTextInputRow("Zipcode", this._zipcodeChangeHandler)} 
+                        </tbody>
+                    </Table>
+                    <small>*Your zipcode is used to identify your community</small>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.onClick}>
-                        Close
-                </Button>
-                    <Button variant="primary" onClick={this._submitClicked}>
-                        Create Account
-                </Button>
+                    <Button variant="secondary" onClick={this.closeModal}>Close</Button>
+                    <Button variant="primary" onClick={this._submitClicked}>Create Account</Button>
                 </Modal.Footer>
             </Modal>
         );
-
     }
-    
+
+    closeModal = () => {
+        this.setState({
+            isOpen: false
+        })
+    }
+
     /**
      * Handles calling a method passed in by props that updates the app state
      * submitClickedHandler needs the entries in the order: username, email, password, zipcode
@@ -54,23 +63,21 @@ class SignUpModal extends Component {
             this.state.email,
             this.state.password,
             this.state.zipcode
-            );
+        );
+        this.closeModal();
     }
 
-    _createTextInput = (label, onChangeHandler) => {
+    _createTextInputRow = (label, onChangeHandler) => {
         return (
-            <Form inline>
-                <Form.Group>
+            <tr>
+                <td>
                     <Form.Label >{label}</Form.Label>
-                    <Form.Control
-                        className="mx-sm-3"
-                        onChange={onChangeHandler}
-                    />
-                    <Form.Text id="passwordHelpBlock" muted>
-                        (Placeholder)
-                        </Form.Text>
-                </Form.Group>
-            </Form>
+                </td>
+                <td>
+                    <Form.Control className="mx-sm-3" onChange={onChangeHandler} />
+                </td>
+            </tr>
+
         );
     }
 
@@ -104,14 +111,6 @@ class SignUpModal extends Component {
             zipcode: e.target.value
         })
     }
-
-
-
-    onClick = () => {
-        return;
-    }
-
-    
 }
 
 export default SignUpModal;

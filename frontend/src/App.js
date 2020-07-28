@@ -5,6 +5,7 @@ import Community from './containers/Community.js';
 import Organizations from './containers/Organizations.js';
 import NavBar from './components/NavBar.js'
 import SignUpModal from './components/SignUpModal.js';
+import SignInModal from './components/SignInModal';
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +24,6 @@ class App extends Component {
   }
   //maybe we should consider react router?
   render() {
-
     switch (this.state.current_page) {
       case 'home': {
         return (
@@ -94,6 +94,16 @@ class App extends Component {
       }
     });
     //TODO: make API call to sign up a new user
+  }
+
+  signInModalSubmitHandler = (username, password) => {
+    //Todo: API Call to get info
+    this.setState({
+      user_info: {
+        username: username,
+        password: password
+      }
+    })
   }
 }
 
