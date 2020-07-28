@@ -19,7 +19,9 @@ class App extends Component {
         username: '',
         password: '',
         zipcode: ''
-      }
+      },
+      current_page: 'organizations',
+      zip_code: '27517'
     };
   }
   //maybe we should consider react router?
