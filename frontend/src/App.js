@@ -3,76 +3,99 @@ import './App.css';
 import Home from './containers/Home.js';
 import Community from './containers/Community.js';
 import Organizations from './containers/Organizations.js';
-import NavBar from './components/NavBar.js'
+import Navy from './components/Navy.js'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import SignInModal from './components/SignInModal.js';
+import SignUpModal from './components/SignUpModal.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      current_page: 'organizations',
-      zip_code: '27517'
-    };
-  }
-  //maybe we should consider react router?
-  render() {
-    switch (this.state.current_page) {
-      case 'home': {
-        return (
-          <div className="App">
-            <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            />
-            <Home />
-          </div>
-        )
-      }
-      case 'community': {
-        return (
-          <div className="App">
-            <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            />
-            <Community />
-          </div>
-        )
-      }
-      case 'organizations': {
-        return (
-          <div className="App">
-            <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            />
-            <Organizations />
-          </div>
-        )
-      }
-      default: {
-        return (
-          <div className="App">
-            <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            />
-            <Home />
-          </div>
-        )
+      user_info: {
+        email: '',
+        username: '',
+        password: '',
+        zipcode: ''
+      },
+      modals: {
+        isSignInShown: false,
+        isSignUpShown: false,
       }
     }
   }
-
-  // Used by the navbar when one of the tabs is selected that triggers a page
-  navbarPageSwitchedHandler = (event) => {
-    this.setState({
-      current_page: event.currentTarget.getAttribute('value')
-    })
+  render() {
+    console.log("state: ", this.state);
+    return (
+      <div className="App">
+        <SignUpModal isShown={this.state.modals.isSignUpShown} closeModal={this.closeSignUpModal} submitModal={this.signUpModalSubmitHandler} />
+        <Router>
+          <div className="nav">
+            <Navy signUpClickHandler={this.signUpPageClickedHandler}/>
+          </div>
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/community">
+              <Community />
+            </Route>
+            <Route path="/organizations">
+              <Organizations />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+    )
   }
 
-  signUpPageHandler = (event) => {
-    //TODO: show modal that asks for signup
+  signUpPageClickedHandler = (event) => {
+    this.setState({
+      ...this.state,
+      modals: {
+        ...this.state.modals,
+        isSignUpShown: true,
+      }
+    });
+  }
+
+  closeSignUpModal = (event) => {
+    this.setState({
+      ...this.state,
+      modals: {
+        ...this.state.modals,
+        isSignUpShown: false,
+      }
+    });
+  }
+
+  signUpModalSubmitHandler = (username, email, password, zipcode) => {
+    this.setState({
+      ...this.state,
+      modals: {
+        ...this.state.modals,
+        isSignUpShown: false,
+
+        user_info: {
+          email: email,
+          username: username,
+          password: password,
+          zipcode: zipcode
+        },
+      }
+    });
+    //TODO: make API call to sign up a new user
+  }
+
+  signInModalSubmitHandler = (username, password) => {
+    //Todo: API Call to get info
+    this.setState({
+      user_info: {
+        username: username,
+        password: password
+      }
+    })
   }
 }
 
