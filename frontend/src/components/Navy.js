@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 const Navy = (props) => {
 
   return (
-    <Navbar sticky="top" variant="dark" bg="dark">
+    <Navbar style={{width: "100%"}}sticky="top" variant="dark" bg="dark">
       <Navbar.Brand>NutriShare</Navbar.Brand>
       <div style={{ position:'relative',marginLeft: "auto", display: "inline-flex" }}>
         <Nav.Item>
