@@ -30,10 +30,21 @@ class App extends Component {
     console.log("state: ", this.state);
     return (
       <div className="App">
-        <SignUpModal isShown={this.state.modals.isSignUpShown} closeModal={this.closeSignUpModal} submitModal={this.signUpModalSubmitHandler} />
+        <SignUpModal
+          isShown={this.state.modals.isSignUpShown}
+          closeModal={this.closeSignUpModal}
+          submitModal={this.signUpModalSubmitHandler}
+          openSignInHandler={this.openSignInModalHandler}
+        />
+        <SignInModal
+          isShown={this.state.modals.isSignInShown}
+          closeModal={this.closeSignInModal}
+          submitModal={this.signInModalSubmitHandler}
+          openSignUpHandler={this.openSignUpModalHandler}
+        />
         <Router>
           <div className="nav">
-            <Navy signUpClickHandler={this.signUpPageClickedHandler}/>
+            <Navy signUpClickHandler={this.openSignUpModalHandler} />
           </div>
           <Switch>
             <Route exact path="/">
@@ -54,22 +65,34 @@ class App extends Component {
     )
   }
 
-  signUpPageClickedHandler = (event) => {
+  openSignUpModalHandler = () => {
     this.setState({
       ...this.state,
       modals: {
         ...this.state.modals,
         isSignUpShown: true,
+        isSignInShown: false
       }
     });
   }
 
-  closeSignUpModal = (event) => {
+  closeSignUpModal = () => {
     this.setState({
       ...this.state,
       modals: {
         ...this.state.modals,
         isSignUpShown: false,
+      }
+    });
+  }
+
+  openSignInModalHandler = () => {
+    this.setState({
+      ...this.state,
+      modals: {
+        ...this.state.modals,
+        isSignUpShown: false,
+        isSignInShown: true
       }
     });
   }
@@ -80,26 +103,46 @@ class App extends Component {
       modals: {
         ...this.state.modals,
         isSignUpShown: false,
+        isSignInShown: false
+      },
 
-        user_info: {
-          email: email,
-          username: username,
-          password: password,
-          zipcode: zipcode
-        },
-      }
+      user_info: {
+        email: email,
+        username: username,
+        password: password,
+        zipcode: zipcode
+      },
     });
     //TODO: make API call to sign up a new user
   }
 
+  closeSignInModal = (event) => {
+    this.setState({
+      ...this.state,
+      modals: {
+        ...this.state.modals,
+        isSignInShown: false,
+      }
+    });
+  }
+
   signInModalSubmitHandler = (username, password) => {
     //Todo: API Call to get info
+    console.log("Username and pw submitted: ", username, password);
     this.setState({
-      user_info: {
-        username: username,
-        password: password
-      }
-    })
+      ...this.state,
+      modals: {
+        ...this.state.modals,
+        isSignUpShown: false,
+        isSignInShown: false,
+      },
+
+        user_info: {
+          ...this.state.user_info,
+          username: username,
+          password: password,
+        },
+    });
   }
 }
 
