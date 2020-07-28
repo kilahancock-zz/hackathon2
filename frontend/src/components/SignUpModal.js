@@ -5,6 +5,15 @@ import Form from 'react-bootstrap/Form';
 import { Component } from 'react';
 import Table from 'react-bootstrap/Table'
 import classes from '../css/link.module.css';
+import Alert from 'react-bootstrap/Alert'
+
+const errorMessages = {
+    email: 'Please enter an email address',
+    username: 'Please enter a username',
+    password: 'Please enter a password',
+    password_reentered: 'Does not match password',
+    zipcode: 'Please enter a zipcode (eg. 55110)'
+}
 
 class SignUpModal extends Component {
     constructor(props) {
@@ -16,11 +25,19 @@ class SignUpModal extends Component {
             password: '',
             password_reentered: '',
             zipcode: '',
+
+            errors: {
+                email: false,
+                username: false,
+                password: false,
+                password_reentered: false,
+                zipcode: false
+            }
         };
     }
 
-
     render() {
+        console.log("Sign up state: ", this.state);
         return (
             <Modal show={this.props.isShown} onHide={this.props.closeModal}>
                 <Modal.Header closeButton>
@@ -30,13 +47,19 @@ class SignUpModal extends Component {
                     <Table size="sm" borderless>
                         <tbody>
                             {this._createTextInputRow("Email", this._emailChangeHandler)}
+                            {this._createAlertRow(this.state.errors.email, errorMessages["email"])}
+
                             {this._createTextInputRow("User Name", this._usernameChangeHandler)}
+                            {this._createAlertRow(this.state.errors.username, errorMessages["username"])}
+
                             {this._createTextInputRow("Password", this._passwordChangeHandler)}
+                            {this._createAlertRow(this.state.errors.password, errorMessages["password"])}
+
                             {this._createTextInputRow("Re-enter Password", this._passwordReenterChangeHandler)}
-                            <tr>
-                                <td><Form.Label >Zipcode</Form.Label></td>
-                                <td><Form.Control className="mx-sm-3" onChange={this._zipcodeChangeHandler} /></td>
-                            </tr>
+                            {this._createAlertRow(this.state.errors.password_reentered, errorMessages["password_reentered"])}
+                            
+                            {this._createTextInputRow("Zipcode", this._zipcodeChangeHandler)}
+                            {this._createAlertRow(this.state.errors.zipcode, errorMessages["zipcode"])}
                         </tbody>
                     </Table>
                     <small>*Your zipcode is used to identify your community</small>
@@ -51,17 +74,56 @@ class SignUpModal extends Component {
         );
     }
 
+    _isValidInputs = () => {
+        let isError = false;
+        let errors = {
+            email: false,
+            username: false,
+            password: false,
+            password_reentered: false,
+            zipcode: false
+        }
+        if (!this.state.email) {
+            errors["email"] = true;
+            isError = true;
+        }
+        if (!this.state.username) {
+            errors.username = true;
+            isError = true;
+        }
+        if (!this.state.password) {
+            errors.password = true;
+            isError = true;
+        }
+        if (this.state.password !== this.state.password_reentered) {
+            errors.password_reentered = true;
+            isError = true;
+        }
+        if (isNaN(this.state.zipcode) || (this.state.zipcode === '')) {
+            errors.zipcode = true;
+            isError = true;
+        }
+        this.setState({
+            ...this.state,
+            errors
+        });
+
+        return !isError;
+    }
+
     /**
      * Handles calling a method passed in by props that updates the app state
      * submitClickedHandler needs the entries in the order: username, email, password, zipcode
     */
     _submitClicked = () => {
-        this.props.submitModal(
-            this.state.username,
-            this.state.email,
-            this.state.password,
-            this.state.zipcode
-        );
+        if (this._isValidInputs()) {
+            this.props.submitModal(
+                this.state.username,
+                this.state.email,
+                this.state.password,
+                this.state.zipcode
+            );
+        }
     }
 
     _createTextInputRow = (label, onChangeHandler) => {
@@ -69,6 +131,17 @@ class SignUpModal extends Component {
             <tr>
                 <td><Form.Label >{label}</Form.Label></td>
                 <td><Form.Control className="mx-sm-3" onChange={onChangeHandler} /></td>
+            </tr>
+        );
+    }
+
+    _createAlertRow = (isShown, errorText) => {
+        return (
+            <tr>
+                <td />
+                <td>
+                    <Alert show={isShown} variant="light" className={classes.Alert}><p>{errorText}</p></Alert>
+                </td>
             </tr>
         );
     }
