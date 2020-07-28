@@ -3,7 +3,8 @@ import './App.css';
 import Home from './containers/Home.js';
 import Community from './containers/Community.js';
 import Organizations from './containers/Organizations.js';
-// import NavBar from './components/NavBar.js'
+import NavBar from './components/NavBar.js'
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 
 class App extends Component {
   constructor(props) {
@@ -13,110 +14,21 @@ class App extends Component {
       current_page: 'home'
     };
   }
-  //maybe we should consider react router?
   render() {
-<<<<<<< Updated upstream
-    switch (this.state.current_page) {
-      case 'home': {
-        return (
-          <div className="App">
-            {/* <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            /> */}
-            <Home />
-          </div>
-        )
-      }
-      case 'community': {
-        return (
-          <div className="App">
-            {/* <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            /> */}
-            <Community />
-          </div>
-        )
-      }
-      case 'organizations': {
-        return (
-          <div className="App">
-            {/* <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            /> */}
-            <Organizations />
-          </div>
-        )
-      }
-      default: {
-        return (
-          <div className="App">
-            {/* <NavBar
-              onPageClickedHandler={this.navbarPageSwitchedHandler}
-              onSignUpClickedHandler={this.signUpPageHandler}
-            /> */}
-            <Home />
-          </div>
-        )
-      }
-    }
-=======
     return(
-    <div className="App">
-      
-      <Home></Home>
-    </div>
-  //   switch(this.state.current_page) {
-  //     case 'home': {
-  //       return (
-  //         <div className="App">
-  //           <NavBar />
-  //           <Home />
-  //         </div>
-  //       )
-  //     }
-  //     case 'community': {
-  //       return (
-  //         <div className="App">
-  //           <NavBar />
-  //           <Community />
-  //         </div>
-  //       )
-  //     }
-  //     case 'organizations': {
-  //       return (
-  //         <div className="App">
-  //           <NavBar />
-  //           <Organizations />
-  //         </div>
-  //       )
-  //     }
-  //     default: {
-  //       return (
-  //         <div className="App">
-  //           <NavBar />
-  //           <Home />
-  //         </div>
-  //       )
-  //     } 
-  //   }
-  // }
+      <div className="App">
+        <Router>
+          <NavBar></NavBar>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+            </Route>
+        </Switch>
+        </Router>
+      </div>
     )
->>>>>>> Stashed changes
   }
-
-  // Used by the navbar when one of the tabs is selected that triggers a page
-  navbarPageSwitchedHandler = (event) => {
-    this.setState({
-      current_page: event.currentTarget.getAttribute('value')
-    })
-  }
-
-  signUpPageHandler = (event) => {
-    //TODO: show modal that asks for signup
-  }
+ 
 }
 
 export default App;
