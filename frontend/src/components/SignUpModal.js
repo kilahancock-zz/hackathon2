@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Component } from 'react';
 import Table from 'react-bootstrap/Table'
+import classes from '../css/link.module.css';
 
 class SignUpModal extends Component {
     constructor(props) {
@@ -15,15 +16,13 @@ class SignUpModal extends Component {
             password: '',
             password_reentered: '',
             zipcode: '',
-            isShown: true,
         };
     }
 
 
     render() {
-        console.log("State: ", this.state);
         return (
-            <Modal show={this.state.isShown} onHide={this.closeModal}>
+            <Modal show={this.props.isShown} onHide={this.props.closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Sign Up</Modal.Title>
                 </Modal.Header>
@@ -34,23 +33,22 @@ class SignUpModal extends Component {
                             {this._createTextInputRow("User Name", this._usernameChangeHandler)}
                             {this._createTextInputRow("Password", this._passwordChangeHandler)}
                             {this._createTextInputRow("Re-enter Password", this._passwordReenterChangeHandler)}
-                            {this._createTextInputRow("Zipcode", this._zipcodeChangeHandler)} 
+                            <tr>
+                                <td><Form.Label >Zipcode</Form.Label></td>
+                                <td><Form.Control className="mx-sm-3" onChange={this._zipcodeChangeHandler} /></td>
+                            </tr>
                         </tbody>
                     </Table>
                     <small>*Your zipcode is used to identify your community</small>
+                    <br />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.closeModal}>Close</Button>
+                    <p>Existing User? Sign in <a className={classes.modalLink} onClick={this.props.openSignInHandler}>here</a></p>
+                    <Button variant="secondary" onClick={this.props.closeModal}>Close</Button>
                     <Button variant="primary" onClick={this._submitClicked}>Create Account</Button>
                 </Modal.Footer>
             </Modal>
         );
-    }
-
-    closeModal = () => {
-        this.setState({
-            isOpen: false
-        })
     }
 
     /**
@@ -58,26 +56,20 @@ class SignUpModal extends Component {
      * submitClickedHandler needs the entries in the order: username, email, password, zipcode
     */
     _submitClicked = () => {
-        this.props.submitClickedHandler(
+        this.props.submitModal(
             this.state.username,
             this.state.email,
             this.state.password,
             this.state.zipcode
         );
-        this.closeModal();
     }
 
     _createTextInputRow = (label, onChangeHandler) => {
         return (
             <tr>
-                <td>
-                    <Form.Label >{label}</Form.Label>
-                </td>
-                <td>
-                    <Form.Control className="mx-sm-3" onChange={onChangeHandler} />
-                </td>
+                <td><Form.Label >{label}</Form.Label></td>
+                <td><Form.Control className="mx-sm-3" onChange={onChangeHandler} /></td>
             </tr>
-
         );
     }
 

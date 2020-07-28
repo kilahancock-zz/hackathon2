@@ -9,7 +9,7 @@ class Home extends Component {
             
             </div>
            <div className="title">
-             <h1> NutriShare </h1>
+             <h1>NutriShare</h1>
            </div>
         </div>
       </div>
