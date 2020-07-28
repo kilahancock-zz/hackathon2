@@ -10,6 +10,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/zerolog"
+	"github.com/kilahancock/hackathon2/backend/routes"
+
 )
 
 var (
@@ -26,47 +28,21 @@ var cfg struct {
 
 func main() {
 
-	var cfg struct {
-		DB struct {
-			Host string `required:"true" split_words:"true"`
-			User string `required:"true" split_words:"true"`
-			Pass string `required:"true" split_words:"true"`
-		}
-	}
-
 	if err := envconfig.Process("", &cfg); err != nil {
 		l.Fatal().Err(err).Msg("error parsing config")
 	}
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/health", func (w http.ResponseWriter, r *http.Request) {
-		_ = json.NewEncoder(w).Encode(map[string]interface{}{
-			"healthy": "ok",
-		})
-	})
+	router.HandleFunc("/health", nutrishare.Health)
 
-	router.HandleFunc("/login", func (w http.ResponseWriter, r *http.Request) {
-		var p []byte
-
-		r.Body.Read(p)
-
-		_ = json.NewEncoder(w).Encode(map[string]interface{}{
-			"got": string(p),
-		})
-	})
+	router.HandleFunc("/login", nutrishare.Login)
 
 	l.Info().Msg("server running on port 3000")
 	err := http.ListenAndServe(":3000", router)
 	if err != nil {
 		l.Fatal().Err(err).Msg("unable to start server")
 	}
-}
-
-func Health(w http.ResponseWriter, r *http.Request) {
-	_ = json.NewEncoder(w).Encode(map[string]interface{}{
-		"healthy": "ok",
-	})
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
