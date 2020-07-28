@@ -33,3 +33,5 @@ services:
       - ./sql:/docker-entrypoint-initdb.d
     expose: 
       - 3306
+    ports:
+      - 3306:3306 
