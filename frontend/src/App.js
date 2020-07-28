@@ -9,20 +9,25 @@ import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 class App extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      current_page: 'home'
-    };
   }
   render() {
     return(
       <div className="App">
+        
         <Router>
-          <NavBar></NavBar>
+        <div className="nav">
+        <NavBar> </NavBar>
+        </div>
         <Switch>
           <Route exact path="/">
             <Home />
-            </Route>
+          </Route>
+          <Route path="/community">
+            <Community/>
+          </Route>
+          <Route path="/organizations">
+            <Organizations/>
+          </Route>
         </Switch>
         </Router>
       </div>
