@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Component } from 'react';
 import Table from 'react-bootstrap/Table'
+import classes from '../css/link.module.css';
 
 class SignUpModal extends Component {
     constructor(props) {
@@ -32,12 +33,17 @@ class SignUpModal extends Component {
                             {this._createTextInputRow("User Name", this._usernameChangeHandler)}
                             {this._createTextInputRow("Password", this._passwordChangeHandler)}
                             {this._createTextInputRow("Re-enter Password", this._passwordReenterChangeHandler)}
-                            {this._createTextInputRow("Zipcode", this._zipcodeChangeHandler)} 
+                            <tr>
+                                <td><Form.Label >Zipcode</Form.Label></td>
+                                <td><Form.Control className="mx-sm-3" onChange={this._zipcodeChangeHandler} /></td>
+                            </tr>
                         </tbody>
                     </Table>
                     <small>*Your zipcode is used to identify your community</small>
+                    <br />
                 </Modal.Body>
                 <Modal.Footer>
+                    <p>Existing User? Sign in <a className={classes.modalLink} onClick={this.props.openSignInHandler}>here</a></p>
                     <Button variant="secondary" onClick={this.props.closeModal}>Close</Button>
                     <Button variant="primary" onClick={this._submitClicked}>Create Account</Button>
                 </Modal.Footer>
@@ -61,14 +67,9 @@ class SignUpModal extends Component {
     _createTextInputRow = (label, onChangeHandler) => {
         return (
             <tr>
-                <td>
-                    <Form.Label >{label}</Form.Label>
-                </td>
-                <td>
-                    <Form.Control className="mx-sm-3" onChange={onChangeHandler} />
-                </td>
+                <td><Form.Label >{label}</Form.Label></td>
+                <td><Form.Control className="mx-sm-3" onChange={onChangeHandler} /></td>
             </tr>
-
         );
     }
 
