@@ -15,7 +15,7 @@ const Navy = (props) => {
         <Nav.Item>
         <Nav.Link as={Link} to="/organizations" value="organizations" className="navbar-brand">Local Organizations</Nav.Link>
         </Nav.Item>
-        <Nav.Link className="navbar-brand">Sign Up</Nav.Link>
+        <Nav.Link className="navbar-brand" onClick={props.signUpClickHandler}>Sign Up</Nav.Link>
       </div>
     </Navbar>
   )
