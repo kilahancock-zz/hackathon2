@@ -65,7 +65,7 @@ func printIDsFromTable(name string){
 
 	defer db.Close()
 
-	// TODO SQL injection prone
+	// TODO SQL injection prone - SQL X
 	rows, err := db.Query("SELECT * from " + name)
 	if err != nil{
 		panic(err)
