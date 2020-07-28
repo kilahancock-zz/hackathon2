@@ -3,7 +3,7 @@ import './App.css';
 import Home from './containers/Home.js';
 import Community from './containers/Community.js';
 import Organizations from './containers/Organizations.js';
-import NavBar from './components/NavBar.js'
+import Navy from './components/Navy.js'
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
         
         <Router>
         <div className="nav">
-        <NavBar> </NavBar>
+        <Navy> </Navy>
         </div>
         <Switch>
           <Route exact path="/">
