@@ -6,7 +6,7 @@ class Community extends Component {
     render() {
       return (
         <div>
-          <Header />
+          <Header resourceClickHandler={this.props.resourceClickHandler}/>
           <CommunityTabs />
         </div>
       )
