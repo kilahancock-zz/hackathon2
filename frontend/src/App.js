@@ -8,8 +8,6 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import SignInModal from './components/SignInModal.js';
 import SignUpModal from './components/SignUpModal.js';
 
-import axios from 'axios';
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -95,27 +93,32 @@ class App extends Component {
     });
   }
 
+  sendPostBackEnd = ( url, payload ) => {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      mode: "no-cors",
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    }
+
+    fetch(url, options);
+  }
+
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
 
-    // Succeeding
-    axios.get('http://localhost:3000/health')
-    .then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    });
-
-    // Failing
-    axios.post('http://localhost:3000/login', {
+    // Send Information to Back-end
+    let payload = {
       username: username,
-      email: 'a@gmail.com'
-    })
-    .then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error);
-    });
+      email: email,
+      password: password,
+      zipcode: zipcode
+    };
 
+    this.sendPostBackEnd("http://localhost:3000/signup", payload );
+    
+    // Update State
     this.setState({
       ...this.state,
       modals: {
