@@ -7,7 +7,7 @@ class Community extends Component {
       return (
         <div>
           <Header resourceClickHandler={this.props.resourceClickHandler}/>
-          <CommunityTabs />
+          <CommunityTabs claimItemHandler={this.props.claimItemHandler} />
         </div>
       )
     }
