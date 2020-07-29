@@ -30,7 +30,6 @@ class App extends Component {
     }
   }
   render() {
-    // console.log("state: ", this.state);
     return (
       <div className="App">
         <SignUpModal
@@ -53,7 +52,11 @@ class App extends Component {
         />
         <Router>
           <div className="nav">
-            <Navy signUpClickHandler={this.openSignUpModalHandler} />
+            <Navy
+              signUpClickHandler={this.openSignUpModalHandler}
+              logoutClickHandler={this.logoutClickedHandler}
+              isNotSignedIn={!this.state.user_info.username}
+            />
           </div>
           <Switch>
             <Route exact path="/">
@@ -69,15 +72,27 @@ class App extends Component {
               <Organizations addFavoriteHandler={this.addFavoriteHandler} />
             </Route>
             <Route path="/profile">
-              <Profile/>
+              <Profile />
             </Route>
             <Route exact path="*">
-             <NotFound></NotFound>
+              <NotFound></NotFound>
             </Route>
           </Switch>
         </Router>
       </div>
     )
+  }
+
+  logoutClickedHandler = () => {
+    this.setState({
+      ...this.state,
+      user_info: {
+        email: '',
+        username: '',
+        password: '',
+        zipcode: ''
+      }
+    })
   }
 
   openSignUpModalHandler = () => {
@@ -152,11 +167,11 @@ class App extends Component {
         isSignInShown: false,
       },
 
-        user_info: {
-          ...this.state.user_info,
-          username: username,
-          password: password,
-        },
+      user_info: {
+        ...this.state.user_info,
+        username: username,
+        password: password,
+      },
     });
   }
 
