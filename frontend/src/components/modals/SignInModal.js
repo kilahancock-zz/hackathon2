@@ -1,10 +1,12 @@
+import { Component } from 'react';
+import { errorMessages, createTextInputRow, createAlertRow } from './util.js';
+
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { Component } from 'react';
 import Table from 'react-bootstrap/Table';
-import classes from '../css/link.module.css';
+import classes from '../../css/link.module.css';
+
 
 class SignInModal extends Component {
     constructor(props) {
@@ -13,6 +15,11 @@ class SignInModal extends Component {
         this.state = {
             username: '',
             password: '',
+
+            errors: {
+                username: false,
+                password: false,
+            }
         };
     }
 
@@ -25,13 +32,16 @@ class SignInModal extends Component {
                 <Modal.Body style={{ alignItems: "center", justifyContent: "center" }}>
                     <Table size="sm" borderless>
                         <tbody>
-                            {this._createTextInputRow("User Name", this._usernameChangeHandler)}
-                            {this._createTextInputRow("Password", this._passwordChangeHandler)}
+                            {createTextInputRow("User Name", this._usernameChangeHandler)}
+                            {createAlertRow(this.state.errors.username, errorMessages["username"])}
+
+                            {createTextInputRow("Password", this._passwordChangeHandler)}
+                            {createAlertRow(this.state.errors.password, errorMessages["password"])}
                         </tbody>
                     </Table>
                 </Modal.Body>
                 <Modal.Footer>
-                <p>New User? Sign up <a className={classes.modalLink} onClick={this.props.openSignUpHandler}>here</a></p>
+                <p>New User? Sign up <Button className={classes.modalLink} onClick={this.props.openSignUpHandler}>here</Button></p>
                     <Button variant="secondary" onClick={this.props.closeModal}>Close</Button>
                     <Button variant="primary" onClick={this._submitClicked}>Sign In</Button>
                 </Modal.Footer>
@@ -50,24 +60,35 @@ class SignInModal extends Component {
      * submitClickedHandler needs the entries in the order: username, email, password, zipcode
     */
     _submitClicked = () => {
-        this.props.submitModal(
-            this.state.username,
-            this.state.password,
-        );
+        if(this._isValidInputs()){
+            this.props.submitModal(
+                this.state.username,
+                this.state.password,
+            );
+        }
     }
 
-    _createTextInputRow = (label, onChangeHandler) => {
-        return (
-            <tr>
-                <td>
-                    <Form.Label >{label}</Form.Label>
-                </td>
-                <td>
-                    <Form.Control className="mx-sm-3" onChange={onChangeHandler} />
-                </td>
-            </tr>
-
-        );
+    //Also check if sign in is successful
+    _isValidInputs = () => {
+        let isError = false;
+        let errors = {
+            username: false,
+            password: false,
+        }
+        if (!this.state.username) {
+            errors.username = true;
+            isError = true;
+        }
+        if (!this.state.password) {
+            errors.password = true;
+            isError = true;
+        }
+        
+        this.setState({
+            ...this.state,
+            errors
+        });
+        return !isError;
     }
 
     _usernameChangeHandler = (e) => {

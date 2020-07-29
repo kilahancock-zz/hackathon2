@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardColumns } from 'react-bootstrap'
+import { Card, CardColumns, Button } from 'react-bootstrap'
 
 class AvailableTable extends Component {
 
@@ -49,6 +49,9 @@ class AvailableTable extends Component {
               <Card.Subtitle>{item.foodRequest}</Card.Subtitle>
               <Card.Text>{item.additionalNotes}</Card.Text>
               <Card.Footer>{item.zipcode}</Card.Footer>
+              <Card.Footer>
+                <Button onClick={this.props.claimItemHandler}>Claim this Item</Button>
+              </Card.Footer>
             </Card>
           ))}
       </CardColumns>

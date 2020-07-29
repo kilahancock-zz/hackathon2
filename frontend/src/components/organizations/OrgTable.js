@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardColumns, Dropdown } from 'react-bootstrap'
+import { Card, CardColumns, Dropdown, Button } from 'react-bootstrap'
 import ReactHtmlParser from 'react-html-parser';
 import '../../css/org-table.css';
 
@@ -9,7 +9,7 @@ class OrgTable extends Component {
     super(props);
     this.state = {
       orgs: [],
-      selectedState: 'AL',
+      selectedState: 'NC',
     }
   }
   async getOrgs(state) {
@@ -92,6 +92,9 @@ class OrgTable extends Component {
               <Card.Title className="title my-2"><a href={org.websiteURL} target="_blank">{org.charityName}</a></Card.Title>
               <Card.Text>{ReactHtmlParser(org.mission)}</Card.Text>
               <Card.Footer>{org.mailingAddress.city}, {org.mailingAddress.stateOrProvince}</Card.Footer>
+              <Card.Footer>
+                <Button onClick={this.props.addFavoriteHandler}>Add to Favorites</Button>
+              </Card.Footer>
             </Card>
           ))}
       </CardColumns>
