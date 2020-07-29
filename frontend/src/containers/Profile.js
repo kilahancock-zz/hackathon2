@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-import Jumbotron from "react-bootstrap/Jumbotron";
-
-import Col from 'react-bootstrap/Col'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import UserCard from "../components/profile/UserCard";
+import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
+import UserCard from '../components/profile/UserCard.js';
+import ProfileTabs from '../components/profile/ProfileTabs.js';
 
 /* 
 this will show after authentifcated user logins. should see number of requests made, donations made, name, and a my organization tab? 
 */
 
-export const Profile = () => {
+export const Profile = (props) => {
   const userProf = {
     name: "Sam",
     lastName: "Gomez Olvera",
@@ -33,6 +30,9 @@ export const Profile = () => {
               <Col> 
               <UserCard userKey="Donations Made: " userValue={user.donationsMade}/>
               </Col>   
+          </Row>
+          <Row className="justify-content-md">
+            <ProfileTabs claimItemHandler={props.claimItemHandler} />
           </Row>
       </Container>
     </div>
