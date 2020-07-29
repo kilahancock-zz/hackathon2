@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	//"encoding/json"
 	"net/http"
 	"os"
@@ -9,9 +8,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
-	"github.com/rs/zerolog"
 	"github.com/kilahancock/hackathon2/backend/routes"
-
+	"github.com/rs/zerolog"
 )
 
 var (
@@ -35,24 +33,14 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/health", nutrishare.Health)
-
 	router.HandleFunc("/login", nutrishare.Login)
+	router.HandleFunc("/resource/", nutrishare.Resource)
 
 	l.Info().Msg("server running on port 3000")
 	err := http.ListenAndServe(":3000", router)
 	if err != nil {
 		l.Fatal().Err(err).Msg("unable to start server")
 	}
-}
-
-func Login(w http.ResponseWriter, r *http.Request) {
-	var p []byte
-
-	r.Body.Read(p)
-
-	_ = json.NewEncoder(w).Encode(map[string]interface{}{
-		"got": string(p),
-	})
 }
 
 func initDB(){
