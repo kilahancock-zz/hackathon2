@@ -69,7 +69,7 @@ class App extends Component {
               <Organizations addFavoriteHandler={this.addFavoriteHandler} />
             </Route>
             <Route path="/profile">
-              <Profile/>
+              <Profile claimItemHandler={this.claimItemHandler} />
             </Route>
             <Route exact path="*">
              <NotFound></NotFound>
