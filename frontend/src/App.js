@@ -20,7 +20,7 @@ class App extends Component {
         email: '',
         username: '',
         password: '',
-        zipcode: '55110'
+        zipcode: ''
       },
       modals: {
         isSignInShown: false,
