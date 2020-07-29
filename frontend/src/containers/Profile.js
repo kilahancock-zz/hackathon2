@@ -26,15 +26,14 @@ export const Profile = () => {
         Welcome to your profile! Here are some of your stats...</h1>
       </Jumbotron>
       <Container fluid>
-          <Row>
+          <Row className="justify-content-md">
               <Col> 
               <UserCard userKey="Requests Made: " userValue={user.requestsMade}/>
               </Col>
               <Col> 
               <UserCard userKey="Donations Made: " userValue={user.donationsMade}/>
-              </Col>
+              </Col>   
           </Row>
-          <h1> Keep up the good work! </h1>
       </Container>
     </div>
   );
