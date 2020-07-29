@@ -70,20 +70,19 @@ func main() {
 			panic(err)
 		}
 		// "message":"{\"username\":\"b\",\"email\":\"a@gmail.com\"}"}
-		l.Info().Msg(string(b)); 
+		// l.Info().Msg(string(b)); 
 
 		// TODO: Figure out how to write body into a struct
-		// var su Summary;
-		// err3 := json.Unmarshal(b, &su)
-		// if err3 != nil {
-		// 	l.Info().Msg("Error #3");
-		// 	http.Error(w, err.Error(), http.StatusBadRequest)
-		// 	return
-		// }
+		var data map[string]interface{}
+		err3 := json.Unmarshal(b, &data)
+		if err3 != nil {
+			l.Info().Msg("Error #3");
+			panic(err3)
+		}
 
 		_ = json.NewEncoder(w).Encode(map[string]interface{}{
 			"login": "ok",
-			"username": string(b),
+			"username": data,
 		})
 	})
 
