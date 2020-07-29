@@ -1,17 +1,17 @@
 
 .modalLink {
-    color: blue;
+    color: blue !important;
     text-decoration: underline;
 
-    background-color: white;
-    border: 0px;
-    padding: 1px;
-    text-align: center;
+    background-color: white !important;
+    border: 0px !important;
+    padding: 1px !important;
     align-self: center;
 }
 
 .modalLink:hover {
     cursor: pointer !important;
+    text-decoration: underline !important;
     background-color: white;
     border: 0px;
 }
