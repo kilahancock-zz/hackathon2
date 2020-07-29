@@ -7,6 +7,8 @@ import Navy from './components/Navy.js'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import SignInModal from './components/SignInModal.js';
 import SignUpModal from './components/SignUpModal.js';
+import NotFound from './components/NotFound'
+import { Profile } from './containers/Profile';
 import ResourceModal from './components/community/ResourceModal.js';
 
 class App extends Component {
@@ -62,6 +64,12 @@ class App extends Component {
             </Route>
             <Route path="/organizations">
               <Organizations />
+            </Route>
+            <Route path="/profile">
+              <Profile/>
+            </Route>
+            <Route exact path="*">
+             <NotFound></NotFound>
             </Route>
           </Switch>
         </Router>
