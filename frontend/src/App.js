@@ -5,8 +5,8 @@ import Community from './containers/Community.js';
 import Organizations from './containers/Organizations.js';
 import Navy from './components/Navy.js'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import SignInModal from './components/SignInModal.js';
-import SignUpModal from './components/SignUpModal.js';
+import SignInModal from './components/modals//SignInModal.js';
+import SignUpModal from './components/modals/SignUpModal.js';
 import NotFound from './components/NotFound'
 import { Profile } from './containers/Profile';
 import ResourceModal from './components/community/ResourceModal.js';
@@ -30,7 +30,7 @@ class App extends Component {
     }
   }
   render() {
-    console.log("state: ", this.state);
+    // console.log("state: ", this.state);
     return (
       <div className="App">
         <SignUpModal
