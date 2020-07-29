@@ -60,7 +60,10 @@ class App extends Component {
               <Home />
             </Route>
             <Route path="/community">
-              <Community resourceClickHandler={this.openResourceModalHandler} />
+              <Community
+                resourceClickHandler={this.openResourceModalHandler}
+                claimItemHandler={this.claimItemHandler}
+              />
             </Route>
             <Route path="/organizations">
               <Organizations addFavoriteHandler={this.addFavoriteHandler} />
@@ -194,6 +197,10 @@ class App extends Component {
 
   addFavoriteHandler = (event) => {
     //TODO: make API call to add organization to user's favorites 
+  }
+
+  claimItemHandler = (event) => {
+    //TODO: make API call to claim item and add to user profile
   }
 }
 
