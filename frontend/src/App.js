@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-
 import './App.css';
 import Home from './containers/Home.js';
 import Community from './containers/Community.js';
 import Organizations from './containers/Organizations.js';
 import Navy from './components/Navy.js'
-import SignInModal from './components/modals/SignInModal.js';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import SignInModal from './components/modals//SignInModal.js';
 import SignUpModal from './components/modals/SignUpModal.js';
+import NotFound from './components/NotFound'
+import { Profile } from './containers/Profile';
+import ResourceModal from './components/community/ResourceModal.js';
 
 class App extends Component {
   constructor(props) {
@@ -23,6 +25,7 @@ class App extends Component {
       modals: {
         isSignInShown: false,
         isSignUpShown: false,
+        isResourceShown: false,
       }
     }
   }
@@ -42,6 +45,12 @@ class App extends Component {
           submitModal={this.signInModalSubmitHandler}
           openSignUpHandler={this.openSignUpModalHandler}
         />
+        <ResourceModal
+          isShown={this.state.modals.isResourceShown}
+          closeModal={this.closeResourceModal}
+          submitModal={this.resourceModalSubmitHandler}
+          openResourceHandler={this.openResourceModalHandler}
+        />
         <Router>
           <div className="nav">
             <Navy signUpClickHandler={this.openSignUpModalHandler} />
@@ -51,10 +60,19 @@ class App extends Component {
               <Home />
             </Route>
             <Route path="/community">
-              <Community />
+              <Community
+                resourceClickHandler={this.openResourceModalHandler}
+                claimItemHandler={this.claimItemHandler}
+              />
             </Route>
             <Route path="/organizations">
-              <Organizations />
+              <Organizations addFavoriteHandler={this.addFavoriteHandler} />
+            </Route>
+            <Route path="/profile">
+              <Profile/>
+            </Route>
+            <Route exact path="*">
+             <NotFound></NotFound>
             </Route>
           </Switch>
         </Router>
@@ -140,6 +158,49 @@ class App extends Component {
           password: password,
         },
     });
+  }
+
+  openResourceModalHandler = () => {
+    this.setState({
+      ...this.state,
+      modals: {
+        ...this.state.modals,
+        isSignUpShown: false,
+        isSignInShown: false,
+        isResourceShown: true
+      }
+    });
+  }
+
+  closeResourceModal = (event) => {
+    this.setState({
+      ...this.state,
+      modals: {
+        ...this.state.modals,
+        isResourceShown: false,
+      }
+    });
+  }
+
+  resourceModalSubmitHandler = (type, category, description, notes) => {
+    this.setState({
+      ...this.state,
+      modals: {
+        ...this.state.modals,
+        isSignUpShown: false,
+        isSignInShown: false,
+        isResourceShown: false
+      },
+    });
+    //TODO: make API call to register request/donation
+  }
+
+  addFavoriteHandler = (event) => {
+    //TODO: make API call to add organization to user's favorites 
+  }
+
+  claimItemHandler = (event) => {
+    //TODO: make API call to claim item and add to user profile
   }
 }
 

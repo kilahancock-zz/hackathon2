@@ -18,7 +18,7 @@ class CommunityTabs extends Component {
               <RequestedTable />
           </Tab>
           <Tab eventKey="available" title="Available" className="mx-5">
-              <AvailableTable />
+              <AvailableTable claimItemHandler={this.props.claimItemHandler} />
           </Tab>
       </Tabs>
     );
