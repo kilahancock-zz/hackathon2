@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
 import './App.css';
 import Home from './containers/Home.js';
 import Community from './containers/Community.js';
 import Organizations from './containers/Organizations.js';
 import Navy from './components/Navy.js'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import SignInModal from './components/SignInModal.js';
-import SignUpModal from './components/SignUpModal.js';
+import SignInModal from './components/modals/SignInModal.js';
+import SignUpModal from './components/modals/SignUpModal.js';
 
 class App extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class App extends Component {
     }
   }
   render() {
-    console.log("state: ", this.state);
+    // console.log("state: ", this.state);
     return (
       <div className="App">
         <SignUpModal

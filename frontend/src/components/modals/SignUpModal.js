@@ -1,19 +1,14 @@
+import { Component } from 'react';
+import { errorMessages, createTextInputRow, createAlertRow } from './util.js';
+
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { Component } from 'react';
 import Table from 'react-bootstrap/Table'
-import classes from '../css/link.module.css';
-import Alert from 'react-bootstrap/Alert'
+import classes from '../../css/link.module.css';
 
-const errorMessages = {
-    email: 'Please enter an email address',
-    username: 'Please enter a username',
-    password: 'Please enter a password',
-    password_reentered: 'Does not match password',
-    zipcode: 'Please enter a zipcode (eg. 55110)'
-}
+
+
 
 class SignUpModal extends Component {
     constructor(props) {
@@ -34,10 +29,10 @@ class SignUpModal extends Component {
                 zipcode: false
             }
         };
+        console.log("Error messages: ", errorMessages);
     }
 
     render() {
-        console.log("Sign up state: ", this.state);
         return (
             <Modal show={this.props.isShown} onHide={this.props.closeModal}>
                 <Modal.Header closeButton>
@@ -46,27 +41,27 @@ class SignUpModal extends Component {
                 <Modal.Body style={{ alignItems: "center", justifyContent: "center" }}>
                     <Table size="sm" borderless>
                         <tbody>
-                            {this._createTextInputRow("Email", this._emailChangeHandler)}
-                            {this._createAlertRow(this.state.errors.email, errorMessages["email"])}
+                            {createTextInputRow("Email", this._emailChangeHandler)}
+                            {createAlertRow(this.state.errors.email, errorMessages["email"])}
 
-                            {this._createTextInputRow("User Name", this._usernameChangeHandler)}
-                            {this._createAlertRow(this.state.errors.username, errorMessages["username"])}
+                            {createTextInputRow("User Name", this._usernameChangeHandler)}
+                            {createAlertRow(this.state.errors.username, errorMessages["username"])}
 
-                            {this._createTextInputRow("Password", this._passwordChangeHandler)}
-                            {this._createAlertRow(this.state.errors.password, errorMessages["password"])}
+                            {createTextInputRow("Password", this._passwordChangeHandler)}
+                            {createAlertRow(this.state.errors.password, errorMessages["password"])}
 
-                            {this._createTextInputRow("Re-enter Password", this._passwordReenterChangeHandler)}
-                            {this._createAlertRow(this.state.errors.password_reentered, errorMessages["password_reentered"])}
+                            {createTextInputRow("Re-enter Password", this._passwordReenterChangeHandler)}
+                            {createAlertRow(this.state.errors.password_reentered, errorMessages["password_reentered"])}
                             
-                            {this._createTextInputRow("Zipcode", this._zipcodeChangeHandler)}
-                            {this._createAlertRow(this.state.errors.zipcode, errorMessages["zipcode"])}
+                            {createTextInputRow("Zipcode", this._zipcodeChangeHandler)}
+                            {createAlertRow(this.state.errors.zipcode, errorMessages["zipcode"])}
                         </tbody>
                     </Table>
                     <small>*Your zipcode is used to identify your community</small>
                     <br />
                 </Modal.Body>
                 <Modal.Footer>
-                    <p>Existing User? Sign in <a className={classes.modalLink} onClick={this.props.openSignInHandler}>here</a></p>
+                    <p>Existing User? Sign in <Button className={classes.modalLink} onClick={this.props.openSignInHandler}>here</Button></p>
                     <Button variant="secondary" onClick={this.props.closeModal}>Close</Button>
                     <Button variant="primary" onClick={this._submitClicked}>Create Account</Button>
                 </Modal.Footer>
@@ -84,7 +79,7 @@ class SignUpModal extends Component {
             zipcode: false
         }
         if (!this.state.email) {
-            errors["email"] = true;
+            errors.email = true;
             isError = true;
         }
         if (!this.state.username) {
@@ -99,7 +94,9 @@ class SignUpModal extends Component {
             errors.password_reentered = true;
             isError = true;
         }
-        if (isNaN(this.state.zipcode) || (this.state.zipcode === '')) {
+
+        //Check that length of 5
+        if (isNaN(this.state.zipcode) || (this.state.zipcode === '') || (this.state.zipcode.length !== 5)) {
             errors.zipcode = true;
             isError = true;
         }
@@ -124,26 +121,6 @@ class SignUpModal extends Component {
                 this.state.zipcode
             );
         }
-    }
-
-    _createTextInputRow = (label, onChangeHandler) => {
-        return (
-            <tr>
-                <td><Form.Label >{label}</Form.Label></td>
-                <td><Form.Control className="mx-sm-3" onChange={onChangeHandler} /></td>
-            </tr>
-        );
-    }
-
-    _createAlertRow = (isShown, errorText) => {
-        return (
-            <tr>
-                <td />
-                <td>
-                    <Alert show={isShown} variant="light" className={classes.Alert}><p>{errorText}</p></Alert>
-                </td>
-            </tr>
-        );
     }
 
 
