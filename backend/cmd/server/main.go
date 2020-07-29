@@ -80,6 +80,7 @@ func main() {
 
 	router.HandleFunc("/health", nutrishare.Health)
 	router.HandleFunc("/login", nutrishare.Login)
+	router.HandleFunc("/signup/", nutrishare.PersonCreate)
 	router.HandleFunc("/resource/", nutrishare.Resource)
 
 	l.Info().Msg("server running on port 3000")
