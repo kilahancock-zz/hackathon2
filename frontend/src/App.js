@@ -20,7 +20,7 @@ class App extends Component {
         email: '',
         username: '',
         password: '',
-        zipcode: ''
+        zipcode: '55110'
       },
       modals: {
         isSignInShown: false,
@@ -66,6 +66,7 @@ class App extends Component {
               <Community
                 resourceClickHandler={this.openResourceModalHandler}
                 claimItemHandler={this.claimItemHandler}
+                userZipcode={this.state.user_info.zipcode}
               />
             </Route>
             <Route path="/organizations">

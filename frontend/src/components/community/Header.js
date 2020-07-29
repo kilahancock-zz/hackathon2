@@ -11,16 +11,16 @@ class Header extends Component {
         <br />
         <div className={classes.colContainer}>
           <Col>
-          <p>Search your community</p>
-          <div className={classes.searchCol}>
-            <Form.Label  className="mx-sm-3">Zipcode</Form.Label>
-            <Form.Control className="mx-sm-6" />
-            <Button  className="mx-sm-3">Search</Button>
-          </div>
+            <p>Search your community</p>
+            <div className={classes.searchCol}>
+              <Form.Label className="mx-sm-3">Zipcode</Form.Label>
+              <Form.Control className="mx-sm-6" defaultValue={this.props.userZipcode}/>
+              <Button className="mx-sm-3">Search</Button>
+            </div>
           </Col>
-          <div className={classes.vertDivide}/>
+          <div className={classes.vertDivide} />
           <Col>
-          <p>Request items, or offer up your extras.</p>
+            <p>Request items, or offer up your extras.</p>
             <Button onClick={this.props.resourceClickHandler}>Get started</Button>
           </Col>
         </div>
