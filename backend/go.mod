@@ -1,4 +1,4 @@
-module github.com/RedVentures/hackathon-go-base
+module github.com/kilahancock/hackathon2/backend
 
 go 1.14
 

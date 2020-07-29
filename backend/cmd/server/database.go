@@ -14,3 +14,4 @@ func newDB(user, pass string) (*sql.DB, error) {
 
 	return db, nil
 }
+
