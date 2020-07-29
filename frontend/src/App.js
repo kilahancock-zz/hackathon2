@@ -61,7 +61,7 @@ class App extends Component {
               <Community resourceClickHandler={this.openResourceModalHandler} />
             </Route>
             <Route path="/organizations">
-              <Organizations />
+              <Organizations addFavoriteHandler={this.addFavoriteHandler} />
             </Route>
           </Switch>
         </Router>
@@ -182,6 +182,10 @@ class App extends Component {
       },
     });
     //TODO: make API call to register request/donation
+  }
+
+  addFavoriteHandler = (event) => {
+    //TODO: make API call to add organization to user's favorites 
   }
 }
 

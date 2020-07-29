@@ -7,7 +7,7 @@ class Organizations extends Component {
       return (
         <div>
           <Header />
-          <OrgTable />
+          <OrgTable addFavoriteHandler={this.props.addFavoriteHandler} />
         </div>
       )
     }
