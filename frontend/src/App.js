@@ -20,7 +20,9 @@ class App extends Component {
         email: '',
         username: '',
         password: '',
-        zipcode: ''
+        zipcode: '',
+        // figure this out after sign-up/sign-in
+        id: 0
       },
       modals: {
         isSignInShown: false,
@@ -153,7 +155,6 @@ class App extends Component {
         zipcode: zipcode
       },
     });
-    //TODO: make API call to sign up a new user
   }
 
   closeSignInModal = (event) => {
@@ -167,8 +168,15 @@ class App extends Component {
   }
 
   signInModalSubmitHandler = (username, password) => {
-    //Todo: API Call to get info
     console.log("Username and pw submitted: ", username, password);
+    // Send Information to Back-end
+    let payload = {
+      username: username,
+      password: password,
+    };
+
+    this.sendPostBackEnd("http://localhost:3000/login", payload );
+
     this.setState({
       ...this.state,
       modals: {
@@ -208,6 +216,18 @@ class App extends Component {
   }
 
   resourceModalSubmitHandler = (type, category, description, notes) => {
+
+    // Send Information to Back-end
+    let payload = {
+      // ? we need personID from App.state
+      request: type === 'Request',
+      rtype: category,
+      dsc: description,
+      adnotes: notes
+    };
+    console.log(payload);
+    // this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
+
     this.setState({
       ...this.state,
       modals: {
