@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import SignInModal from './components/SignInModal.js';
 import SignUpModal from './components/SignUpModal.js';
 import NotFound from './components/NotFound'
+import { Profile } from './containers/Profile';
 
 class App extends Component {
   constructor(props) {
@@ -55,6 +56,9 @@ class App extends Component {
             </Route>
             <Route path="/organizations">
               <Organizations />
+            </Route>
+            <Route path="/profile">
+              <Profile/>
             </Route>
             <Route exact path="*">
              <NotFound></NotFound>
