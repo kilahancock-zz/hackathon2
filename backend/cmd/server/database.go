@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/rs/zerolog/log"
 )
 
 func newDB(user, pass string) (*sql.DB, error) {
@@ -16,13 +15,14 @@ func newDB(user, pass string) (*sql.DB, error) {
 	return db, nil
 }
 
-func SavePerson(p Person) (int64, error) {
+func (d *DataStore)SavePerson(p Person) (int64, error) {
 
-	log.Info().Msg(fmt.Sprintf("Person: %+v", p))
-	res, err := DB.Exec(`INSERT INTO Person(username,password,email,zipcode)
-		VALUES ($1,$2,$3,$4)`, p.Username, p.Password, p.Email, p.Zipcode)
+	// TODO delete
+	d.Logger.Info().Msg(fmt.Sprintf("We're adding this person to the db: %+v", p))
 
-	// This error is triggering with 'No database selected'
+	res, err := d.db.Exec(`INSERT INTO Person (username,password,email,zipcode)
+VALUES (?, ?, ?, ?)`,p.Username, p.Password, p.Email, p.Zipcode)
+
 	if err != nil{
 		return 0, err
 	}
@@ -30,10 +30,4 @@ func SavePerson(p Person) (int64, error) {
 
 	return pid, err
 }
-
-//func SaveCustomer(username string) error {
-//	db := GetDB()
-//	_, err := db.Exec("INSERT INTO customer (username) VALUES($1)", username)
-//	return err
-//}
 
