@@ -17,6 +17,15 @@ type Resource struct{
 	zipcode string
 }
 
+type Charity struct {
+	id int64
+	pid int64
+	cname string
+	cURL string
+	ccity string
+	cstate string
+}
+
 type ExistingUser struct {
 	Username string
 	Password string
@@ -28,15 +37,6 @@ type Person struct {
 	Email  string
 	Password string
 	Zipcode string
-}
-
-type Resources struct {
-	// pid int
-	// zipcode int
-	Request bool
-	Rtype string
-	Dsc string
-	Adnotes string
 }
 
 func Health(w http.ResponseWriter, r *http.Request) {
@@ -69,17 +69,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		"login": "ok",
 	})
 }
-
-//func Resource(w http.ResponseWriter, r *http.Request) {
-//
-//	switch r.Method {
-//	case http.MethodPost:
-//		// TODO
-//	case http.MethodGet:
-//		// TODO
-//	}
-//
-//}
 
 func (s *Server) PersonCreate(w http.ResponseWriter, r *http.Request){
 	// Enable response for all access
@@ -128,7 +117,7 @@ func (s *Server) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		s.Logger.Info().Msg(fmt.Sprintf("We're adding this resource to the db: %+v", r))
+		s.Logger.Info().Msg(fmt.Sprintf("We're adding this resource to the db: %+v", resource))
 		id, err := s.ds.SaveResource(resource)
 		if err != nil {
 			// TODO fatalize
@@ -141,6 +130,43 @@ func (s *Server) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			// TODO fatalize
 			log.Info().Msg("Wasn't able to read resources " + err.Error())
+		}
+		// TODO json encode
+		_ = json.NewEncoder(w).Encode(res)
+	}
+
+}
+
+func (s *Server) CharityHandler(w http.ResponseWriter, r *http.Request) {
+
+	// Enable response for all access
+	enableCors(&w)
+
+	// Declare a new Charity struct.
+	var charity Charity
+
+	switch r.Method {
+	case http.MethodPost:
+		// Try to decode the request body into the struct. If there is an error,
+		// respond to the client with the error message and a 400 status code.
+		err := json.NewDecoder(r.Body).Decode(&charity)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		s.Logger.Info().Msg(fmt.Sprintf("We're adding this charity to the db: %+v", charity))
+		id, err := s.ds.SaveCharity(charity)
+		if err != nil {
+			// TODO fatalize
+			log.Info().Msg("Wasn't able to save charity " + err.Error())
+		}
+		charity.id = id
+	case http.MethodGet:
+		pid := 1
+		res, err := s.ds.GetCharityByUser(pid)
+		if err != nil {
+			// TODO fatalize
+			log.Info().Msg("Wasn't able to read charities " + err.Error())
 		}
 		// TODO json encode
 		_ = json.NewEncoder(w).Encode(res)
