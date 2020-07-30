@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1e2336f816143f1c5fddb0f109acdb018adf26d8
 class Home extends Component {
   render() {
     /*
