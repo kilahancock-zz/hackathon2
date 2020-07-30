@@ -8,7 +8,7 @@ import (
 )
 
 type Resource struct {
-	Id      int64
+	id      int64
 	Pid     int64
 	Rname   string
 	Rtype   string
@@ -18,7 +18,7 @@ type Resource struct {
 }
 
 type Charity struct {
-	Id int64
+	id int64
 	Pid int64
 	Cname string
 	CURL string
@@ -32,7 +32,7 @@ type ExistingUser struct {
 }
 
 type Person struct {
-	Id int64
+	id int64
 	Username string
 	Email  string
 	Password string
@@ -94,7 +94,7 @@ func (s *Server) PersonCreate(w http.ResponseWriter, r *http.Request){
 		log.Info().Msg("Wasn't able to save person " + err.Error())
 	}
 
-	p.Id = pid
+	p.id = pid
 
 	log.Info().Msg(fmt.Sprintf("Person: %+v", p))
 
@@ -119,7 +119,6 @@ func (s *Server) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-<<<<<<< HEAD
 	id, err := s.ds.SaveResource(resource)
 	if err != nil {
 		log.Info().Msg("Wasn't able to save resource " + err.Error())
@@ -145,31 +144,6 @@ func (s *Server) GetResources(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
-=======
-		id, err := s.ds.SaveResource(resource)
-		if err != nil {
-			// TODO fatalize
-			log.Info().Msg("Wasn't able to save resource " + err.Error())
-		}
-<<<<<<< HEAD
-		resource.Id = id
-=======
-		resource.id = id
-
-		_ = json.NewEncoder(w).Encode(map[string]interface{}{
-			"resourceId": id,
-		})
->>>>>>> development
-	case http.MethodGet:
-		zipCode := "00727"
-		res, err := s.ds.GetResourceByZip(zipCode)
-		if err != nil {
-			// TODO fatalize
-			log.Info().Msg("Wasn't able to read resources " + err.Error())
-		}
-		// TODO json encode
-		_ = json.NewEncoder(w).Encode(res)
->>>>>>> 0f704ebf5bd8dab7835596f88a476cc4e790970f
 	}
 
 	res, err := s.ds.GetResourceByZip(zip.Zipcode)
@@ -206,7 +180,7 @@ func (s *Server) CharityHandler(w http.ResponseWriter, r *http.Request) {
 			// TODO fatalize
 			log.Info().Msg("Wasn't able to save charity " + err.Error())
 		}
-		charity.Id = id
+		charity.id = id
 	case http.MethodGet:
 		pid := 1
 		res, err := s.ds.GetCharityByUser(pid)
