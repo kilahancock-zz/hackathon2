@@ -51,7 +51,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func Resource(w http.ResponseWriter, r *http.Request) ([]*Resource, error) {
+func submitResource(w http.ResponseWriter, r *http.Request) ([]*Resource, error) {
 
 	switch r.Method {
 	case http.MethodPost:

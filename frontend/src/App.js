@@ -235,16 +235,19 @@ class App extends Component {
 
     // Send Information to Back-end
     let payload = {
+      id: 1,
       // ? we need personID from App.state
+      pid: 1,
       // ? we need zipcode from App.state
+      zipcode: '27517',
       request: type === 'Request',
       rtype: category,
-      dsc: description,
-      adnotes: notes
+      rname: description,
+      notes: notes
     };
     console.log(payload);
     // ! Make sure this works eventually
-    // this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
+    this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
 
     this.setState({
       ...this.state,
