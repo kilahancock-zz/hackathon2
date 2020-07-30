@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { errorMessages, createTextInputRow, createAlertRow } from './util.js';
+import { errorMessages, createTextInputRow, createAlertRow, createPasswordRow } from './util.js';
 
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
@@ -35,7 +35,7 @@ class SignInModal extends Component {
                             {createTextInputRow("User Name", this._usernameChangeHandler)}
                             {createAlertRow(this.state.errors.username, errorMessages["username"])}
 
-                            {createTextInputRow("Password", this._passwordChangeHandler)}
+                            {createPasswordRow("Password", this._passwordChangeHandler)}
                             {createAlertRow(this.state.errors.password, errorMessages["password"])}
                         </tbody>
                     </Table>

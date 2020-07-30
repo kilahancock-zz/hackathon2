@@ -27,6 +27,19 @@ export const createTextInputRow = (label, onChangeHandler) => {
 }
 
 /**
+ * Creates a password table row
+ * onChangeHandler when any of the input changes
+ */
+export const createPasswordRow = (label, onChangeHandler) => {
+    return (
+        <tr>
+            <td><Form.Label >{label}</Form.Label></td>
+            <td><Form.Control className="mx-sm-3" onChange={onChangeHandler} type="password"/></td>
+        </tr>
+    );
+}
+
+/**
  * Creates a small alert row to be placed under the above _createTextInputRow
  * The alert will show up in the second row as small, red text.
  * The alert styling comes from the link.module.css

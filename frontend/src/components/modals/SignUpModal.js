@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { errorMessages, createTextInputRow, createAlertRow } from './util.js';
+import { errorMessages, createTextInputRow, createAlertRow, createPasswordRow } from './util.js';
 import Form from 'react-bootstrap/Form';
 
 import React from 'react';
@@ -48,10 +48,10 @@ class SignUpModal extends Component {
                             {createTextInputRow("User Name", this._usernameChangeHandler)}
                             {createAlertRow(this.state.errors.username, errorMessages["username"])}
 
-                            {createTextInputRow("Password", this._passwordChangeHandler)}
+                            {createPasswordRow("Password", this._passwordChangeHandler)}
                             {createAlertRow(this.state.errors.password, errorMessages["password"])}
 
-                            {createTextInputRow("Re-enter Password", this._passwordReenterChangeHandler)}
+                            {createPasswordRow("Re-enter Password", this._passwordReenterChangeHandler)}
                             {createAlertRow(this.state.errors.password_reentered, errorMessages["password_reentered"])}
 
                             <tr>
