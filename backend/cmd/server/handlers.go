@@ -12,7 +12,7 @@ type Resource struct{
 	pid int64
 	rname string
 	rtype string
-	request bool
+	request int
 	dsc string
 	zipcode string
 }

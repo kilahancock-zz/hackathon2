@@ -12,6 +12,7 @@ CREATE TABLE Person (
 
 CREATE TABLE Resource (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    rname VARCHAR(15),
     pid INT,
     request BOOLEAN,
     rtype VARCHAR(15),
