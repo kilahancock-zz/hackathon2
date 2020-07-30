@@ -228,6 +228,7 @@ class App extends Component {
       adnotes: notes
     };
     console.log(payload);
+    // ! Make sure this works eventually
     // this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
 
     this.setState({
