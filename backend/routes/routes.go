@@ -12,6 +12,16 @@ type Person struct {
 	Email  string
 }
 
+type Resource struct{
+	id int,
+	pid int,
+	rname string,
+	rtype string,
+	request bool,
+	dsc string,
+	zipcode string
+}
+
 func Health(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(map[string]interface{}{
 		"healthy": "ok",
@@ -41,13 +51,35 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func Resource(w http.ResponseWriter, r *http.Request) {
+func Resource(w http.ResponseWriter, r *http.Request) ([]*Resource, error) {
 
 	switch r.Method {
 	case http.MethodPost:
-		// TODO
+		re := `INSERT INTO Resource (pid, rname, rtype, request, dsc, zipcode) VALUES (?, ?, ?, ?, ?, ?)`
+		res, err := DB.Exec(re, 1, "Tacos", "dinner", false, "good food", "00727")
+		if err != nil {
+			http.Error(w, err.Error() + fmt.Sprintf("bad"), http.StatusBadRequest)
+			return
+		}
 	case http.MethodGet:
-		// TODO
+		re := `SELECT * FROM Resource WHERE pid='1'`
+		rows, err := DB.Query(re)
+		if err != nil {
+			return nil, err
+		}
+		res := make([]*Resource, 0)
+		for rows.Next() {
+			rs := new(Resource)
+			err := rows.Scan(&rs.id, &rs.pid, &rs.rname, &rs.rtype, &rs.request, &rs.dsc, &rs.zipcode)
+			if err != nil {
+				return nil, err
+			}
+			res = append (res, rs)
+		}
+		if err = rows.Err(); err != nil {
+			return nil, err
+		}
+		return res, nil
 	}
 
 }
