@@ -173,16 +173,14 @@ class App extends Component {
     });
   }
 
-  addFavoriteHandler = () => {
-    console.log("in claim handler");
-    // Send Information to Back-end
+  addFavoriteHandler = (orgName, orgURL) => {
+
     let payload = {
       cid: 1,
       pid: 1,
-      cname: 'hi',
-      cUrl: 'hi'
+      cname: orgName,
+      cUrl: orgURL
     };
-    console.log(payload);
 
     //this.sendPostBackEnd("http://localhost:3000/charity", payload );
   }
@@ -272,10 +270,6 @@ class App extends Component {
         isResourceShown: false
       },
     });
-  }
-
-  addFavoriteHandler = (event) => {
-    //TODO: make API call to add organization to user's favorites 
   }
 
   claimItemHandler = (event) => {

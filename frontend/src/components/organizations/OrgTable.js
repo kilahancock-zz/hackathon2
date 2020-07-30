@@ -92,7 +92,7 @@ class OrgTable extends Component {
               <Card.Text>{ReactHtmlParser(org.mission)}</Card.Text>
               <Card.Footer>{org.mailingAddress.city}, {org.mailingAddress.stateOrProvince}</Card.Footer>
               <Card.Footer>
-                <Button onClick={() => this.props.addFavoriteHandler}>Add to Favorites</Button>
+                <Button onClick={() => this.props.addFavoriteHandler(org.charityName, org.websiteURL)}>Add to Favorites</Button>
               </Card.Footer>
             </Card>
           ))}
