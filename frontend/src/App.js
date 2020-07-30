@@ -10,6 +10,7 @@ import SignUpModal from './components/modals/SignUpModal.js';
 import NotFound from './components/NotFound'
 import { Profile } from './containers/Profile';
 import ResourceModal from './components/community/ResourceModal.js';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -117,15 +118,18 @@ class App extends Component {
   sendPostBackEnd = ( url, payload ) => {
     const options = {
       method: 'POST',
+      // mode: 'no-cors',
       body: JSON.stringify(payload),
-      mode: "no-cors",
       headers: {
-          'Content-Type': 'application/json'
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       }
     }
 
     fetch(url, options)
-      .then(response => console.log(response));
+    .then((response) => {
+      console.log(response.data);
+    })
   }
 
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
@@ -140,6 +144,11 @@ class App extends Component {
 
     this.sendPostBackEnd("http://localhost:3000/signup", payload );
     
+    axios.get('http://localhost:3000/signup')
+    .then((response) => {
+      console.log(response.data);
+    })
+
     // Update State
     this.setState({
       ...this.state,

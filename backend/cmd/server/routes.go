@@ -73,35 +73,43 @@ func Resource(w http.ResponseWriter, r *http.Request) {
 }
 
 func PersonCreate(w http.ResponseWriter, r *http.Request){
+
 	// Enable response for all access
 	enableCors(&w)
+	log.Info().Msg(r.Method);
 
-	// Declare a new Person struct.
-	var p Person
+	switch r.Method {
+		case http.MethodPost:
+			// Declare a new Person struct.
+			var p Person
 
-	// Try to decode the request body into the struct. If there is an error,
-	// respond to the client with the error message and a 400 status code.
-	err := json.NewDecoder(r.Body).Decode(&p)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+			// Try to decode the request body into the struct. If there is an error,
+			// respond to the client with the error message and a 400 status code.
+			err := json.NewDecoder(r.Body).Decode(&p)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+
+			x, err := SavePerson(p)
+			log.Info().Msg(string(x))
+
+			if err != nil{
+				log.Info().Msg("Wasn't able to save person " + err.Error())
+			}
+			// idk why this isn't getting sent back properly
+			_ = json.NewEncoder(w).Encode(map[string]interface{}{
+				"personCreate": "wait, this actually worked?",
+			})
+		case http.MethodGet:
+			_ = json.NewEncoder(w).Encode(map[string]interface{}{
+				"personCreate": "ik this should work",
+			})
 	}
-
-	pid, err := SavePerson(p)
-
-	if err != nil{
-		log.Info().Msg("Wasn't able to save person " + err.Error())
-	}
-
-	log.Info().Msg(fmt.Sprintf("Person: %+v", p))
-
-	_ = json.NewEncoder(w).Encode(map[string]interface{}{
-		"personCreate": pid,
-	})
 }
 
 func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	(*w).Header().Set("Content-Type", "application/json")
+    (*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+    (*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
