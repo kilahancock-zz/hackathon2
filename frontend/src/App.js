@@ -67,9 +67,12 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    /* here we can call ALL the get functions in here
-    */
+    let payload = {
+      zipcode: "48180"
+    }
+    this.getResourcePost("http://localhost:3000/getResources", payload);
   }
+
   render() {
     return (
       <div className="App">
@@ -334,13 +337,14 @@ class App extends Component {
     fetch(url, requestOptions)
     .then(response => response.json())
     .then(data => {
+      console.log(data);
       let requestArr = [];
       let donationArr = [];
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].request) {
-          requestArr.push(data[i]);
+      for (let i = 0; i < data.resources.length; i++) {
+        if (data.resources[i].request) {
+          requestArr.push(data.resources[i]);
         } else {
-          donationArr.push(data[i]);
+          donationArr.push(data.resources[i]);
         }
       }
       this.setState({
