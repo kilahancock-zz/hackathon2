@@ -46,11 +46,10 @@ func NewServer() *Server{
 	router.HandleFunc("/health", s.Health)
 	router.HandleFunc("/login", s.Login)
 	router.HandleFunc("/signup", s.PersonCreate)
-	router.HandleFunc("/resource", s.ResourceHandler)
-	router.HandleFunc("/charities", s.GetCharities)
-	router.HandleFunc("/postResource", s.ResourceHandler)
+	router.HandleFunc("/getCharities", s.GetCharities)
+	router.HandleFunc("/postCharity", s.PostCharity)
 	router.HandleFunc("/getResources", s.GetResources)
-
+	router.HandleFunc("/postResource", s.PostResource)
 
 	s.Handler = router
 
