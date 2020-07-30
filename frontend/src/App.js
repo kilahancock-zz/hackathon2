@@ -341,7 +341,7 @@ class App extends Component {
       let requestArr = [];
       let donationArr = [];
       for (let i = 0; i < data.resources.length; i++) {
-        if (data.resources[i].request) {
+        if (data.resources[i].Request) {
           requestArr.push(data.resources[i]);
         } else {
           donationArr.push(data.resources[i]);
