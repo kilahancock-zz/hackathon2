@@ -1,4 +1,4 @@
-package nutrishare
+package main
 
 import (
 	"encoding/json"
@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
-
 )
 
 type ExistingUser struct {
@@ -75,7 +74,7 @@ func Resource(w http.ResponseWriter, r *http.Request) {
 
 func PersonCreate(w http.ResponseWriter, r *http.Request){
 	// Enable response for all access
-	enableCors(&w);
+	enableCors(&w)
 
 	// Declare a new Person struct.
 	var p Person
@@ -84,16 +83,20 @@ func PersonCreate(w http.ResponseWriter, r *http.Request){
 	// respond to the client with the error message and a 400 status code.
 	err := json.NewDecoder(r.Body).Decode(&p)
 	if err != nil {
-		http.Error(w, err.Error() + fmt.Sprintf("Person: %+v", p), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	// TODO: Push information into DB
+	pid, err := SavePerson(p)
+
+	if err != nil{
+		log.Info().Msg("Wasn't able to save person " + err.Error())
+	}
+
 	log.Info().Msg(fmt.Sprintf("Person: %+v", p))
 
-	// TODO: Send pid after INSERT into DB
 	_ = json.NewEncoder(w).Encode(map[string]interface{}{
-		"personCreate": "ok",
+		"personCreate": pid,
 	})
 }
 
