@@ -124,7 +124,8 @@ class App extends Component {
       }
     }
 
-    fetch(url, options);
+    fetch(url, options)
+      .then(response => console.log(response));
   }
 
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
@@ -220,6 +221,7 @@ class App extends Component {
     // Send Information to Back-end
     let payload = {
       // ? we need personID from App.state
+      // ? we need zipcode from App.state
       request: type === 'Request',
       rtype: category,
       dsc: description,
