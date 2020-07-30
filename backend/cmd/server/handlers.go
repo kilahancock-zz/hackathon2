@@ -122,7 +122,15 @@ func (s *Server) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 			// TODO fatalize
 			log.Info().Msg("Wasn't able to save resource " + err.Error())
 		}
+<<<<<<< HEAD
 		resource.Id = id
+=======
+		resource.id = id
+
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
+			"resourceId": id,
+		})
+>>>>>>> development
 	case http.MethodGet:
 		zipCode := "00727"
 		res, err := s.ds.GetResourceByZip(zipCode)
