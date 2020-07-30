@@ -46,7 +46,7 @@ func NewServer() *Server{
 	router.HandleFunc("/health", Health)
 	router.HandleFunc("/login", Login)
 	router.HandleFunc("/signup", s.PersonCreate)
-	router.HandleFunc("/resource", Resource)
+	router.HandleFunc("/resource", s.ResourceHandler)
 
 	s.Handler = router
 
