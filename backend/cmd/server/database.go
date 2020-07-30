@@ -36,7 +36,7 @@ func (d *DataStore) SaveResource(r Resource) (int64, error) {
 	// TODO delete
 	d.Logger.Info().Msg(fmt.Sprintf("We're adding this resource to the db: %+v", r))
 
-	res, err := d.db.Exec(`INSERT INTO Resource (pid, rname, rtype, request, dsc, zipcode) VALUES (?, ?, ?, ?, ?, ?)`,
+	res, err := d.db.Exec(`INSERT INTO Resources (pid, rname, rtype, request, dsc, zipcode) VALUES (?, ?, ?, ?, ?, ?)`,
 		r.pid, r.rname, r.rtype, r.request, r.dsc, r.zipcode)
 	if err != nil {
 		return 0, err
@@ -50,7 +50,7 @@ func (d *DataStore) SaveResource(r Resource) (int64, error) {
 func (d *DataStore) GetResourceByZip(zipCode string) ([]Resource, error){
 	res := make([]Resource, 0)
 
-	rows, err := d.db.Query(`SELECT * FROM Resource WHERE zipcode=?`,zipCode)
+	rows, err := d.db.Query(`SELECT * FROM Resources WHERE zipcode=?`,zipCode)
 	if err != nil {
 		return nil, err
 	}
@@ -62,6 +62,46 @@ func (d *DataStore) GetResourceByZip(zipCode string) ([]Resource, error){
 			return nil, err
 		}
 		res = append (res, *rs)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return res, err
+}
+
+func (d *DataStore) SaveCharity(c Charity) (int64, error) {
+
+	// TODO delete
+	d.Logger.Info().Msg(fmt.Sprintf("We're adding this charity to the db: %+v", c))
+
+	res, err := d.db.Exec(`INSERT INTO Charities (id, pid, cname, cURL, ccity, cstate) VALUES (?, ?, ?, ?, ?, ?)`,
+		c.id, c.pid, c.cname, c.cURL, c.ccity, c.cstate)
+	if err != nil {
+		return 0, err
+	}
+
+	id, err := res.LastInsertId()
+
+	return id, err
+}
+
+func (d *DataStore) GetCharityByUser(pid int) ([]Charity, error){
+	res := make([]Charity, 0)
+
+	rows, err := d.db.Query(`SELECT * FROM Charities WHERE pid=?`,pid)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		ch := new(Charity)
+		err := rows.Scan(&ch.id, &ch.pid, &ch.cname, &ch.cURL, &ch.ccity, &ch.cstate)
+		if err != nil {
+			return nil, err
+		}
+		res = append (res, *ch)
 	}
 
 	if err = rows.Err(); err != nil {
