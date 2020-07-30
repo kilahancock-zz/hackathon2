@@ -53,7 +53,7 @@ class App extends Component {
         <Router>
           <div className="nav">
             <Navy
-              signUpClickHandler={this.openSignUpModalHandler}
+              signInClickHandler={this.openSignInModalHandler}
               logoutClickHandler={this.logoutClickedHandler}
               isNotSignedIn={!this.state.user_info.username}
             />

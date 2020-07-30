@@ -17,9 +17,9 @@ const Navy = (props) => {
         </Nav.Item>
         <Nav.Link
           className="navbar-brand"
-          onClick={props.signUpClickHandler}
+          onClick={props.signInClickHandler}
           style={{ display: (props.isNotSignedIn ? 'block' : 'none') }}>
-          Sign Up
+          Sign In
         </Nav.Link>
         <Nav.Link
           className="navbar-brand"
