@@ -290,7 +290,7 @@ class App extends Component {
       zipcode: this.state.user_info.zipcode
     };
     console.log(payload);
-    this.sendResourcePost("http://localhost:3000/resource", payload );
+    this.sendResourcePost("http://localhost:3000/postResource", payload );
 
     this.setState({
       ...this.state,
