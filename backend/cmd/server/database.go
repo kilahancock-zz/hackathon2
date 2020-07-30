@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 )
 
@@ -13,6 +14,30 @@ func newDB(user, pass string) (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+func (d *DataStore) GetPerson(uname string, pwd string) (Person, error){
+	res := new(Person)
+
+	rows, err := d.db.Query(`SELECT * FROM Person WHERE username=?`,uname)
+	if err != nil {
+		return Person{}, err
+	}
+
+	if ok := rows.Next(); !ok{
+		return Person{}, errors.New(fmt.Sprintf("Didn't find this user: %s",uname))
+	}
+
+	err = rows.Scan(&res.id, &res.Username, &res.Password, &res.Email, &res.Zipcode)
+	if err != nil {
+		return Person{}, err
+	}
+
+	if err = rows.Err(); err != nil {
+		return Person{}, err
+	}
+
+	return *res, err
 }
 
 func (d *DataStore) SavePerson(p Person) (int64, error) {
