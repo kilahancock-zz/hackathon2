@@ -266,8 +266,9 @@ class App extends Component {
       cstate: orgState
     };
 
-    this.sendPostBackEnd("http://localhost:3000/charity", payload );
+    this.sendPostBackEnd("http://localhost:3000/postCharity", payload );
   }
+
 
   closeSignInModal = (event) => {
     this.setState({
