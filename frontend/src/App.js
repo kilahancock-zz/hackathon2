@@ -10,17 +10,19 @@ import SignUpModal from './components/modals/SignUpModal.js';
 import NotFound from './components/NotFound'
 import { Profile } from './containers/Profile';
 import ResourceModal from './components/community/ResourceModal.js';
+import PrivateRoute from './components/PrivateRoute'
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      auth: true,
       user_info: {
         email: '',
         username: '',
         password: '',
-        zipcode: '',
+        zipcode: '55110',
         // figure this out after sign-up/sign-in
         id: 0
       },
@@ -28,10 +30,56 @@ class App extends Component {
         isSignInShown: false,
         isSignUpShown: false,
         isResourceShown: false,
-      }
+      },
+      resources: {
+        donations: [
+          {
+            foodType: 'Donation',
+            foodRequest: 'Carrots and tomatoes',
+            additionalNotes: 'Need bite sized items for my child',
+            allergies: 'Gluten allergy',
+            zipcode: '27517'
+        }
+        ],
+        requests: [
+          {
+              foodType: 'Produce',
+              foodRequest: 'Carrots and tomatoes',
+              additionalNotes: 'Need bite sized items for my child',
+              allergies: 'Gluten allergy',
+              zipcode: '27517'
+          },
+          {
+              foodType: 'Produce',
+              foodRequest: 'Carrots and tomatoes',
+              additionalNotes: 'Need bite sized items for my child',
+              allergies: 'Gluten allergy',
+              zipcode: '27517'
+          },
+          {
+              foodType: 'Produce',
+              foodRequest: 'Carrots and tomatoes',
+              additionalNotes: 'Need bite sized items for my child',
+              allergies: 'Gluten allergy',
+              zipcode: '27517'
+          }
+      ],
+      },
+      organizations: []
     }
   }
+  componentDidMount() {
+    /* here we can call ALL the get functions in here
+    */
+   this.populateResources();
+    // let payload = {
+    //   zipcode: "48180"
+    // }
+    // this.getResourcePost("http://localhost:3000/getResources", payload);
+  }
+
   render() {
+    console.log("App Zipcode: ", this.state.user_info.zipcode);
     return (
       <div className="App">
         <SignUpModal
@@ -69,14 +117,24 @@ class App extends Component {
                 resourceClickHandler={this.openResourceModalHandler}
                 claimItemHandler={this.claimItemHandler}
                 userZipcode={this.state.user_info.zipcode}
+                searchHandler={this.communitySearchHandler}
+                requests={this.state.resources.requests}
+                donations={this.state.resources.donations}
               />
             </Route>
             <Route path="/organizations">
               <Organizations addFavoriteHandler={this.addFavoriteHandler} />
             </Route>
-            <Route path="/profile">
-              <Profile claimItemHandler={this.claimItemHandler} />
+            <Route path="/login">
+            <SignInModal
+          isShown={this.state.modals.isSignInShown}
+          closeModal={this.closeSignInModal}
+          submitModal={this.signInModalSubmitHandler}
+          openSignUpHandler={this.openSignUpModalHandler}
+        />
             </Route>
+            <PrivateRoute authenticated={this.state.user_info} path="/profile" component={() => <Profile claimItemHandler={this.claimItemHandler} />}>
+            </PrivateRoute>
             <Route exact path="*">
               <NotFound></NotFound>
             </Route>
@@ -84,6 +142,17 @@ class App extends Component {
         </Router>
       </div>
     )
+  }
+
+  communitySearchHandler = (zipcode) => {
+    console.log("Search called in App.js");
+    this.setState({
+      ...this.state,
+      user_info: {
+        zipcode: zipcode
+      }
+    });
+    this.populateResources();
   }
 
   logoutClickedHandler = () => {
@@ -130,7 +199,7 @@ class App extends Component {
     });
   }
 
-  sendPostBackEnd = ( url, payload ) => {
+  sendSignUp = ( url, payload ) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "text/plain");
 
@@ -157,17 +226,6 @@ class App extends Component {
     .catch(error => console.log('error', error));
   }
 
-  sendGetBackEnd = ( url, payload ) => {
-    const options = {
-      method: 'GET',
-      body: JSON.stringify(payload),
-      mode: "no-cors",
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  }
-
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
 
     // Send Information to Back-end
@@ -178,7 +236,7 @@ class App extends Component {
       zipcode: zipcode
     };
 
-    this.sendPostBackEnd("http://localhost:3000/signup", payload );
+    this.sendSignUp("http://localhost:3000/signup", payload );
 
     // Update State
     this.setState({
@@ -199,7 +257,6 @@ class App extends Component {
   }
 
   addFavoriteHandler = (orgName, orgURL, orgCity, orgState) => {
-
     let payload = {
       id: 1,
       pid: 1,
@@ -209,8 +266,9 @@ class App extends Component {
       cstate: orgState
     };
 
-    this.sendPostBackEnd("http://localhost:3000/charity", payload );
+    this.sendPostBackEnd("http://localhost:3000/postCharity", payload );
   }
+
 
   closeSignInModal = (event) => {
     this.setState({
@@ -270,24 +328,85 @@ class App extends Component {
     });
   }
 
+  sendResourcePost = ( url, payload ) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "text/plain");
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    };
+
+    fetch( url, requestOptions )
+    .then(response => response.json())
+    .then(data => {
+      console.log("result = " + data.resourceId)
+      // ? Do we save in state anything?
+    })
+    .catch(error => console.log('error', error));
+  }
+
+  getResourcePost = (url, payload) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "text/plain");
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    };
+
+    fetch(url, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      let requestArr = [];
+      let donationArr = [];
+      for (let i = 0; i < data.resources.length; i++) {
+        if (data.resources[i].Request) {
+          requestArr.push(data.resources[i]);
+        } else {
+          donationArr.push(data.resources[i]);
+        }
+      }
+      this.setState({
+        ...this.state,
+        resources: {
+          ...this.state.resources,
+          requests: requestArr,
+          donations: donationArr
+        }
+      });
+    })
+    .catch(error => console.log('Resource post error: ', error));
+  }
+
+  populateResources = () => {
+    let url = "http://localhost:3000/getResources";
+    let payload = {
+      zipcode: this.state.zipcode
+    };
+
+    this.getResourcePost(url, payload);
+  }
+
   resourceModalSubmitHandler = (type, category, description, notes) => {
 
     // Send Information to Back-end
     let payload = {
-      id: 1,
-      // ? we need personID from App.state
-      pid: 1,
-      // ? we need zipcode from App.state
-      zipcode: '27517',
-      request: type === 'Request',
-      rtype: category,
+      pid: this.state.user_info.id,
       rname: description,
-      dsc: notes
+      rtype: category,
+      request: type === 'Request',
+      dsc: notes,
+      zipcode: this.state.user_info.zipcode
     };
     console.log(payload);
-    // ! Make sure this works eventually
-    this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
-
+    this.sendResourcePost("http://localhost:3000/postResource", payload );
+    
     this.setState({
       ...this.state,
       modals: {

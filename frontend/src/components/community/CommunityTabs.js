@@ -16,10 +16,10 @@ class CommunityTabs extends Component {
     return (
       <Tabs defaultActiveKey="requested" id="communityTabs" className="w-75 mt-5 px-5">
           <Tab eventKey="requested" title="Requested" className="mx-5">
-              <RequestedTable />
+              <RequestedTable requests={this.props.requests}/>
           </Tab>
           <Tab eventKey="available" title="Available" className="mx-5">
-              <AvailableTable claimItemHandler={this.props.claimItemHandler} />
+              <AvailableTable donations={this.props.donations} claimItemHandler={this.props.claimItemHandler} />
           </Tab>
       </Tabs>
     );
