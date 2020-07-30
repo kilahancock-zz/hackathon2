@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-<<<<<<< HEAD
 
-=======
->>>>>>> 1e2336f816143f1c5fddb0f109acdb018adf26d8
 class Home extends Component {
   render() {
     /*
@@ -22,7 +19,7 @@ class Home extends Component {
            <div className="title">
              <h1>NutriShare</h1>
              <br/>
-             <h3 className="subtitle">Every day, food is thrown out and goes to waste while people go without. We aim to connect community members in a food sharing program to continue the fight against hunger and lower food waste. </h3>
+             <h3 className="subtitle mx-5">Every day, food is thrown out and goes to waste while people go without. We aim to connect community members in a food sharing program to continue the fight against hunger and lower food waste. </h3>
            </div>
         </div>
       </div>
