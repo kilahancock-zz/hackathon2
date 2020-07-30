@@ -28,7 +28,7 @@ func (d *DataStore) GetPerson(uname string, pwd string) (Person, error){
 		return Person{}, errors.New(fmt.Sprintf("Didn't find this user: %s",uname))
 	}
 
-	err = rows.Scan(&res.id, &res.Username, &res.Password, &res.Email, &res.Zipcode)
+	err = rows.Scan(&res.Id, &res.Username, &res.Password, &res.Email, &res.Zipcode)
 	if err != nil {
 		return Person{}, err
 	}
@@ -112,7 +112,7 @@ func (d *DataStore) SaveCharity(c Charity) (int64, error) {
 	return id, err
 }
 
-func (d *DataStore) GetCharityByUser(pid int) ([]Charity, error){
+func (d *DataStore) GetCharitiesByUser(pid int) ([]Charity, error){
 	res := make([]Charity, 0)
 
 	rows, err := d.db.Query(`SELECT * FROM Charities WHERE pid=?`,pid)

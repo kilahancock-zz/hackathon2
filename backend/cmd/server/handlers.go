@@ -26,11 +26,6 @@ type Charity struct {
 	Cstate string
 }
 
-type ExistingUser struct {
-	Username string
-	Password string
-}
-
 type Person struct {
 	Id int64
 	Username string
@@ -54,6 +49,11 @@ func (s *Server) Health(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) Login(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method!=http.MethodPost{
+		http.Error(w, ("This is meant to be posted to."), http.StatusBadRequest)
+		return
+	}
 	// Enable response for all access
 	enableCors(&w);
 
@@ -68,13 +68,14 @@ func (s *Server) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s.ds.GetPerson("username", "password")
+	p, err = s.ds.GetPerson(p.Username, p.Password)
+	if err != nil{
+		log.Info().Msg("Wasn't able to login " + err.Error())
+	}
 	log.Info().Msg(fmt.Sprintf("Person: %+v", p))
 
 	// ! Do need to send back response in order for information to work right
-	_ = json.NewEncoder(w).Encode(map[string]interface{}{
-		"login": "ok",
-	})
+	_ = json.NewEncoder(w).Encode(p)
 }
 
 func (s *Server) PersonCreate(w http.ResponseWriter, r *http.Request){
@@ -144,6 +145,32 @@ func (s *Server) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func (s *Server) GetCharities(w http.ResponseWriter, r *http.Request){
+
+	// Enable response for all access
+	enableCors(&w)
+
+	// Declare a new Person struct.
+	var p Person
+
+	// Try to decode the request body into the struct. If there is an error,
+	// respond to the client with the error message and a 400 status code.
+	err := json.NewDecoder(r.Body).Decode(&p)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	res, err := s.ds.GetCharitiesByUser(int(p.Id))
+	if err != nil {
+		log.Info().Msg("Wasn't able to read charities " + err.Error())
+	}
+
+	_ = json.NewEncoder(w).Encode(res)
+
+
+}
+
 func (s *Server) CharityHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Enable response for all access
@@ -170,7 +197,7 @@ func (s *Server) CharityHandler(w http.ResponseWriter, r *http.Request) {
 		charity.Id = id
 	case http.MethodGet:
 		pid := 1
-		res, err := s.ds.GetCharityByUser(pid)
+		res, err := s.ds.GetCharitiesByUser(pid)
 		if err != nil {
 			// TODO fatalize
 			log.Info().Msg("Wasn't able to read charities " + err.Error())
