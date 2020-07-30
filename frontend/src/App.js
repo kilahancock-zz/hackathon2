@@ -10,7 +10,6 @@ import SignUpModal from './components/modals/SignUpModal.js';
 import NotFound from './components/NotFound'
 import { Profile } from './containers/Profile';
 import ResourceModal from './components/community/ResourceModal.js';
-import axios from 'axios';
 
 class App extends Component {
   constructor(props) {
@@ -33,7 +32,6 @@ class App extends Component {
     }
   }
   render() {
-    // console.log("state: ", this.state);
     return (
       <div className="App">
         <SignUpModal
@@ -56,7 +54,11 @@ class App extends Component {
         />
         <Router>
           <div className="nav">
-            <Navy signUpClickHandler={this.openSignUpModalHandler} />
+            <Navy
+              signInClickHandler={this.openSignInModalHandler}
+              logoutClickHandler={this.logoutClickedHandler}
+              isNotSignedIn={!this.state.user_info.username}
+            />
           </div>
           <Switch>
             <Route exact path="/">
@@ -66,21 +68,34 @@ class App extends Component {
               <Community
                 resourceClickHandler={this.openResourceModalHandler}
                 claimItemHandler={this.claimItemHandler}
+                userZipcode={this.state.user_info.zipcode}
               />
             </Route>
             <Route path="/organizations">
               <Organizations addFavoriteHandler={this.addFavoriteHandler} />
             </Route>
             <Route path="/profile">
-              <Profile/>
+              <Profile claimItemHandler={this.claimItemHandler} />
             </Route>
             <Route exact path="*">
-             <NotFound></NotFound>
+              <NotFound></NotFound>
             </Route>
           </Switch>
         </Router>
       </div>
     )
+  }
+
+  logoutClickedHandler = () => {
+    this.setState({
+      ...this.state,
+      user_info: {
+        email: '',
+        username: '',
+        password: '',
+        zipcode: ''
+      }
+    })
   }
 
   openSignUpModalHandler = () => {
@@ -127,9 +142,29 @@ class App extends Component {
     };
 
     fetch( url, requestOptions )
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+    .then(response => response.json())
+    .then(data => {
+      console.log("result = " + data.personCreate)
+      this.setState({
+        ...this.state,
+        user_info: {
+          ...this.state.user_info,
+          id: data.personCreate,
+        }
+      })
+    })
+    .catch(error => console.log('error', error));
+  }
+
+  sendGetBackEnd = ( url, payload ) => {
+    const options = {
+      method: 'GET',
+      body: JSON.stringify(payload),
+      mode: "no-cors",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
   }
 
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
@@ -162,6 +197,20 @@ class App extends Component {
     });
   }
 
+  addFavoriteHandler = (orgName, orgURL, orgCity, orgState) => {
+
+    let payload = {
+      id: 1,
+      pid: 1,
+      cname: orgName,
+      cUrl: orgURL,
+      ccity: orgCity,
+      cstate: orgState
+    };
+
+    this.sendPostBackEnd("http://localhost:3000/charity", payload );
+  }
+
   closeSignInModal = (event) => {
     this.setState({
       ...this.state,
@@ -190,11 +239,11 @@ class App extends Component {
         isSignInShown: false,
       },
 
-        user_info: {
-          ...this.state.user_info,
-          username: username,
-          password: password,
-        },
+      user_info: {
+        ...this.state.user_info,
+        username: username,
+        password: password,
+      },
     });
   }
 
@@ -224,16 +273,19 @@ class App extends Component {
 
     // Send Information to Back-end
     let payload = {
+      id: 1,
       // ? we need personID from App.state
+      pid: 1,
       // ? we need zipcode from App.state
+      zipcode: '27517',
       request: type === 'Request',
       rtype: category,
-      dsc: description,
-      adnotes: notes
+      rname: description,
+      dsc: notes
     };
     console.log(payload);
     // ! Make sure this works eventually
-    // this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
+    this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
 
     this.setState({
       ...this.state,
@@ -244,11 +296,6 @@ class App extends Component {
         isResourceShown: false
       },
     });
-    //TODO: make API call to register request/donation
-  }
-
-  addFavoriteHandler = (event) => {
-    //TODO: make API call to add organization to user's favorites 
   }
 
   claimItemHandler = (event) => {

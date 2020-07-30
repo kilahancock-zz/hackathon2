@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Component } from 'react';
 import Table from 'react-bootstrap/Table';
+import { FormText } from 'react-bootstrap';
 
 class ResourceModal extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class ResourceModal extends Component {
     }
 
     render() {
+        let disclaimer = 'Include allergies and dietary restrictions here.';
         return (
             <Modal show={this.props.isShown} onHide={this.props.closeModal}>
                 <Modal.Header closeButton>
@@ -29,10 +31,9 @@ class ResourceModal extends Component {
                             {this._createSelectTypeInputRow("Choose one", this._resourceTypeChangeHandler)}
                             {this._createSelectCategoryInputRow("Category", this._categoryChangeHandler)}
                             {this._createTextInputRow("Describe items", this._descriptionChangeHandler)}
-                            {this._createTextAreaInputRow("Additional notes", this._notesChangeHandler)}
+                            {this._createTextAreaInputRow("Additional notes", this._notesChangeHandler, disclaimer)}
                         </tbody>
                     </Table>
-                    <small>Include allergies and dietary restrictions here.</small>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={this.props.closeModal}>Close</Button>
@@ -93,11 +94,15 @@ class ResourceModal extends Component {
         );
     }
 
-    _createTextAreaInputRow = (label, onChangeHandler) => {
+    _createTextAreaInputRow = (label, onChangeHandler, notesText = 0) => {
+        let text;
+        if(notesText !== 0){
+        text = <Form.Text muted>{notesText}</Form.Text>
+        }
         return (
             <tr>
                 <td><Form.Label >{label}</Form.Label></td>
-                <td><Form.Control as="textarea" className="mx-sm-3" onChange={onChangeHandler} /></td>
+                <td><Form.Control as="textarea" className="mx-sm-3" onChange={onChangeHandler} />{text}</td>
             </tr>
         );
     }
