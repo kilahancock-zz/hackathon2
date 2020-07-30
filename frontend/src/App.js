@@ -141,6 +141,7 @@ class App extends Component {
       redirect: 'follow'
     };
 
+    // woot
     fetch( url, requestOptions )
     .then(response => response.json())
     .then(data => {
