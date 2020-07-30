@@ -268,7 +268,7 @@ class App extends Component {
       request: type === 'Request',
       rtype: category,
       rname: description,
-      notes: notes
+      dsc: notes
     };
     console.log(payload);
     // ! Make sure this works eventually

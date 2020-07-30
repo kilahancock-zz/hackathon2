@@ -37,14 +37,14 @@ func (d *DataStore) SaveResource(r Resource) (int64, error) {
 	d.Logger.Info().Msg(fmt.Sprintf("We're adding this resource to the db: %+v", r))
 
 	res, err := d.db.Exec(`INSERT INTO Resources (pid, rname, rtype, request, dsc, zipcode) VALUES (?, ?, ?, ?, ?, ?)`,
-		r.pid, r.rname, r.rtype, r.request, r.dsc, r.zipcode)
+		r.Pid, r.Rname, r.Rtype, r.Request, r.Dsc, r.Zipcode)
 	if err != nil {
 		return 0, err
 	}
 
-	pid, err := res.LastInsertId()
+	id, err := res.LastInsertId()
 
-	return pid, err
+	return id, err
 }
 
 func (d *DataStore) GetResourceByZip(zipCode string) ([]Resource, error){
@@ -57,7 +57,7 @@ func (d *DataStore) GetResourceByZip(zipCode string) ([]Resource, error){
 
 	for rows.Next() {
 		rs := new(Resource)
-		err := rows.Scan(&rs.id, &rs.pid, &rs.rname, &rs.rtype, &rs.request, &rs.dsc, &rs.zipcode)
+		err := rows.Scan(&rs.id, &rs.Pid, &rs.Rname, &rs.Rtype, &rs.Request, &rs.Dsc, &rs.Zipcode)
 		if err != nil {
 			return nil, err
 		}

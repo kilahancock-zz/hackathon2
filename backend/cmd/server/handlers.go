@@ -7,14 +7,14 @@ import (
 	"net/http"
 )
 
-type Resource struct{
-	id int64
-	pid int64
-	rname string
-	rtype string
-	request int
-	dsc string
-	zipcode string
+type Resource struct {
+	id      int64
+	Pid     int64
+	Rname   string
+	Rtype   string
+	Request bool
+	Dsc     string
+	Zipcode string
 }
 
 type Charity struct {
@@ -117,7 +117,7 @@ func (s *Server) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		s.Logger.Info().Msg(fmt.Sprintf("We're adding this resource to the db: %+v", resource))
+
 		id, err := s.ds.SaveResource(resource)
 		if err != nil {
 			// TODO fatalize

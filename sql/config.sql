@@ -17,7 +17,6 @@ CREATE TABLE Resources (
     request BOOLEAN,
     rtype VARCHAR(15),
     dsc VARCHAR(100),
-    adnotes VARCHAR (100),
     zipcode char(5)
 );
 
