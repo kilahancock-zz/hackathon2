@@ -13,10 +13,10 @@ CREATE TABLE Person (
 CREATE TABLE Resource (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pid INT,
-    rname VARCHAR(15),
-    rtype VARCHAR(15),
     request BOOLEAN,
+    rtype VARCHAR(15),
     dsc VARCHAR(100),
+    adnotes VARCHAR (100),
     zipcode char(5)
 );
 
