@@ -258,23 +258,39 @@ class App extends Component {
     });
   }
 
+  sendResourcePost = ( url, payload ) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "text/plain");
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    };
+
+    fetch( url, requestOptions )
+    .then(response => response.json())
+    .then(data => {
+      console.log("result = " + data.resourceId)
+      // ? Do we save in state anything?
+    })
+    .catch(error => console.log('error', error));
+  }
+
   resourceModalSubmitHandler = (type, category, description, notes) => {
 
     // Send Information to Back-end
     let payload = {
-      id: 1,
-      // ? we need personID from App.state
-      pid: 1,
-      // ? we need zipcode from App.state
-      zipcode: '27517',
-      request: type === 'Request',
-      rtype: category,
+      pid: this.state.user_info.id,
       rname: description,
-      dsc: notes
+      rtype: category,
+      request: type === 'Request',
+      dsc: notes,
+      zipcode: this.state.user_info.zipcode
     };
     console.log(payload);
-    // ! Make sure this works eventually
-    this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
+    this.sendResourcePost("http://localhost:3000/resource", payload );
 
     this.setState({
       ...this.state,
