@@ -8,7 +8,7 @@ import (
 )
 
 type Resource struct {
-	id      int64
+	Id      int64
 	Pid     int64
 	Rname   string
 	Rtype   string
@@ -18,7 +18,7 @@ type Resource struct {
 }
 
 type Charity struct {
-	id int64
+	Id int64
 	Pid int64
 	Cname string
 	CURL string
@@ -32,7 +32,7 @@ type ExistingUser struct {
 }
 
 type Person struct {
-	id int64
+	Id int64
 	Username string
 	Email  string
 	Password string
@@ -90,7 +90,7 @@ func (s *Server) PersonCreate(w http.ResponseWriter, r *http.Request){
 		log.Info().Msg("Wasn't able to save person " + err.Error())
 	}
 
-	p.id = pid
+	p.Id = pid
 
 	log.Info().Msg(fmt.Sprintf("Person: %+v", p))
 
@@ -122,11 +122,15 @@ func (s *Server) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 			// TODO fatalize
 			log.Info().Msg("Wasn't able to save resource " + err.Error())
 		}
+<<<<<<< HEAD
+		resource.Id = id
+=======
 		resource.id = id
 
 		_ = json.NewEncoder(w).Encode(map[string]interface{}{
 			"resourceId": id,
 		})
+>>>>>>> development
 	case http.MethodGet:
 		zipCode := "00727"
 		res, err := s.ds.GetResourceByZip(zipCode)
@@ -163,7 +167,7 @@ func (s *Server) CharityHandler(w http.ResponseWriter, r *http.Request) {
 			// TODO fatalize
 			log.Info().Msg("Wasn't able to save charity " + err.Error())
 		}
-		charity.id = id
+		charity.Id = id
 	case http.MethodGet:
 		pid := 1
 		res, err := s.ds.GetCharityByUser(pid)

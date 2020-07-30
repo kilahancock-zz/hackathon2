@@ -320,6 +320,41 @@ class App extends Component {
     .catch(error => console.log('error', error));
   }
 
+  getResourcePost = (url, payload) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "text/plain");
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    };
+
+    fetch(url, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      let requestArr = [];
+      let donationArr = [];
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].request) {
+          requestArr.push(data[i]);
+        } else {
+          donationArr.push(data[i]);
+        }
+      }
+      this.setState({
+        ...this.state,
+        resources: {
+          ...this.state.resources,
+          requests: requestArr,
+          donations: donationArr
+        }
+      });
+    })
+    .catch(error => console.log('error', error));
+  }
+
   resourceModalSubmitHandler = (type, category, description, notes) => {
 
     // Send Information to Back-end
