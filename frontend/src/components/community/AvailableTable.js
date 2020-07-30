@@ -11,35 +11,6 @@ class AvailableTable extends Component {
     }
   }
 
-  // getAvailable() {
-  //   // will grab request data from backend and parse into usable objects
-  //   let temp = [
-  //       {
-  //           foodType: 'Meat',
-  //           foodRequest: 'Ground beef',
-  //           additionalNotes: 'I have a 1-lb package and a 5-lb package',
-  //           zipcode: '27517'
-  //       },
-  //       {
-  //           foodType: 'Meat',
-  //           foodRequest: 'Ground beef',
-  //           additionalNotes: 'I have a 1-lb package and a 5-lb package',
-  //           zipcode: '27517'
-  //       },
-  //       {
-  //           foodType: 'Meat',
-  //           foodRequest: 'Ground beef',
-  //           additionalNotes: 'I have a 1-lb package and a 5-lb package',
-  //           zipcode: '27517'
-  //       }
-  //   ];
-  //   this.setState({availableItems: temp});
-  // }
-
-  // componentDidMount() {
-  //   this.getAvailable();
-  // }
-
   render() {
     return (
       <CardColumns className="px-4 mt-5">
