@@ -130,7 +130,7 @@ class App extends Component {
     });
   }
 
-  sendPostBackEnd = ( url, payload ) => {
+  sendSignUp = ( url, payload ) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "text/plain");
 
@@ -156,17 +156,6 @@ class App extends Component {
     .catch(error => console.log('error', error));
   }
 
-  sendGetBackEnd = ( url, payload ) => {
-    const options = {
-      method: 'GET',
-      body: JSON.stringify(payload),
-      mode: "no-cors",
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  }
-
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
 
     // Send Information to Back-end
@@ -177,7 +166,7 @@ class App extends Component {
       zipcode: zipcode
     };
 
-    this.sendPostBackEnd("http://localhost:3000/signup", payload );
+    this.sendSignUp("http://localhost:3000/signup", payload );
 
     // Update State
     this.setState({
