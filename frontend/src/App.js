@@ -10,17 +10,19 @@ import SignUpModal from './components/modals/SignUpModal.js';
 import NotFound from './components/NotFound'
 import { Profile } from './containers/Profile';
 import ResourceModal from './components/community/ResourceModal.js';
+import PrivateRoute from './components/PrivateRoute'
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      auth: true,
       user_info: {
         email: '',
         username: '',
         password: '',
-        zipcode: '',
+        zipcode: '55110',
         // figure this out after sign-up/sign-in
         id: 0
       },
@@ -67,13 +69,17 @@ class App extends Component {
     }
   }
   componentDidMount() {
-    let payload = {
-      zipcode: "48180"
-    }
-    this.getResourcePost("http://localhost:3000/getResources", payload);
+    /* here we can call ALL the get functions in here
+    */
+   this.populateResources();
+    // let payload = {
+    //   zipcode: "48180"
+    // }
+    // this.getResourcePost("http://localhost:3000/getResources", payload);
   }
 
   render() {
+    console.log("App Zipcode: ", this.state.user_info.zipcode);
     return (
       <div className="App">
         <SignUpModal
@@ -111,6 +117,7 @@ class App extends Component {
                 resourceClickHandler={this.openResourceModalHandler}
                 claimItemHandler={this.claimItemHandler}
                 userZipcode={this.state.user_info.zipcode}
+                searchHandler={this.communitySearchHandler}
                 requests={this.state.resources.requests}
                 donations={this.state.resources.donations}
               />
@@ -118,9 +125,16 @@ class App extends Component {
             <Route path="/organizations">
               <Organizations addFavoriteHandler={this.addFavoriteHandler} />
             </Route>
-            <Route path="/profile">
-              <Profile claimItemHandler={this.claimItemHandler} />
+            <Route path="/login">
+            <SignInModal
+          isShown={this.state.modals.isSignInShown}
+          closeModal={this.closeSignInModal}
+          submitModal={this.signInModalSubmitHandler}
+          openSignUpHandler={this.openSignUpModalHandler}
+        />
             </Route>
+            <PrivateRoute authenticated={this.state.user_info} path="/profile" component={() => <Profile claimItemHandler={this.claimItemHandler} />}>
+            </PrivateRoute>
             <Route exact path="*">
               <NotFound></NotFound>
             </Route>
@@ -128,6 +142,17 @@ class App extends Component {
         </Router>
       </div>
     )
+  }
+
+  communitySearchHandler = (zipcode) => {
+    console.log("Search called in App.js");
+    this.setState({
+      ...this.state,
+      user_info: {
+        zipcode: zipcode
+      }
+    });
+    this.populateResources();
   }
 
   logoutClickedHandler = () => {
@@ -232,7 +257,6 @@ class App extends Component {
   }
 
   addFavoriteHandler = (orgName, orgURL, orgCity, orgState) => {
-
     let payload = {
       id: 1,
       pid: 1,
@@ -356,7 +380,16 @@ class App extends Component {
         }
       });
     })
-    .catch(error => console.log('error', error));
+    .catch(error => console.log('Resource post error: ', error));
+  }
+
+  populateResources = () => {
+    let url = "http://localhost:3000/resource";
+    let payload = {
+      zipcode: this.state.zipcode
+    };
+
+    this.getResourcePost(url, payload);
   }
 
   resourceModalSubmitHandler = (type, category, description, notes) => {

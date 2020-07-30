@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 )
 
@@ -13,6 +14,30 @@ func newDB(user, pass string) (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+func (d *DataStore) GetPerson(uname string, pwd string) (Person, error){
+	res := new(Person)
+
+	rows, err := d.db.Query(`SELECT * FROM Person WHERE username=?`,uname)
+	if err != nil {
+		return Person{}, err
+	}
+
+	if ok := rows.Next(); !ok{
+		return Person{}, errors.New(fmt.Sprintf("Didn't find this user: %s",uname))
+	}
+
+	err = rows.Scan(&res.Id, &res.Username, &res.Password, &res.Email, &res.Zipcode)
+	if err != nil {
+		return Person{}, err
+	}
+
+	if err = rows.Err(); err != nil {
+		return Person{}, err
+	}
+
+	return *res, err
 }
 
 func (d *DataStore) SavePerson(p Person) (int64, error) {
@@ -57,7 +82,7 @@ func (d *DataStore) GetResourceByZip(zipCode string) ([]Resource, error){
 
 	for rows.Next() {
 		rs := new(Resource)
-		err := rows.Scan(&rs.id, &rs.Rname, &rs.Pid, &rs.Request, &rs.Rtype, &rs.Dsc, &rs.Zipcode)
+		err := rows.Scan(&rs.Id, &rs.Rname, &rs.Pid, &rs.Request, &rs.Rtype, &rs.Dsc, &rs.Zipcode)
 		if err != nil {
 			return nil, err
 		}
@@ -77,7 +102,7 @@ func (d *DataStore) SaveCharity(c Charity) (int64, error) {
 	d.Logger.Info().Msg(fmt.Sprintf("We're adding this charity to the db: %+v", c))
 
 	res, err := d.db.Exec(`INSERT INTO Charities (id, pid, cname, cURL, ccity, cstate) VALUES (?, ?, ?, ?, ?, ?)`,
-		c.id, c.Pid, c.Cname, c.CURL, c.Ccity, c.Cstate)
+		c.Id, c.Pid, c.Cname, c.CURL, c.Ccity, c.Cstate)
 	if err != nil {
 		return 0, err
 	}
@@ -87,7 +112,7 @@ func (d *DataStore) SaveCharity(c Charity) (int64, error) {
 	return id, err
 }
 
-func (d *DataStore) GetCharityByUser(pid int) ([]Charity, error){
+func (d *DataStore) GetCharitiesByUser(pid int) ([]Charity, error){
 	res := make([]Charity, 0)
 
 	rows, err := d.db.Query(`SELECT * FROM Charities WHERE pid=?`,pid)
@@ -97,7 +122,7 @@ func (d *DataStore) GetCharityByUser(pid int) ([]Charity, error){
 
 	for rows.Next() {
 		ch := new(Charity)
-		err := rows.Scan(&ch.id, &ch.Pid, &ch.Cname, &ch.CURL, &ch.Ccity, &ch.Cstate)
+		err := rows.Scan(&ch.Id, &ch.Pid, &ch.Cname, &ch.CURL, &ch.Ccity, &ch.Cstate)
 		if err != nil {
 			return nil, err
 		}

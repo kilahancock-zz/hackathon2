@@ -43,15 +43,13 @@ func NewServer() *Server{
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/health", Health)
-
-	router.HandleFunc("/login", Login)
+	router.HandleFunc("/health", s.Health)
+	router.HandleFunc("/login", s.Login)
 	router.HandleFunc("/signup", s.PersonCreate)
-
-	router.HandleFunc("/postResource", s.ResourceHandler)
+	router.HandleFunc("/getCharities", s.GetCharities)
+	router.HandleFunc("/postCharity", s.PostCharity)
 	router.HandleFunc("/getResources", s.GetResources)
-	
-	router.HandleFunc("/charity", s.CharityHandler)
+	router.HandleFunc("/postResource", s.PostResource)
 
 	s.Handler = router
 
