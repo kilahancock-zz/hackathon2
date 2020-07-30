@@ -82,7 +82,7 @@ func (d *DataStore) GetResourceByZip(zipCode string) ([]Resource, error){
 
 	for rows.Next() {
 		rs := new(Resource)
-		err := rows.Scan(&rs.id, &rs.Rname, &rs.Pid, &rs.Request, &rs.Rtype, &rs.Dsc, &rs.Zipcode)
+		err := rows.Scan(&rs.Id, &rs.Rname, &rs.Pid, &rs.Request, &rs.Rtype, &rs.Dsc, &rs.Zipcode)
 		if err != nil {
 			return nil, err
 		}
@@ -102,7 +102,7 @@ func (d *DataStore) SaveCharity(c Charity) (int64, error) {
 	d.Logger.Info().Msg(fmt.Sprintf("We're adding this charity to the db: %+v", c))
 
 	res, err := d.db.Exec(`INSERT INTO Charities (id, pid, cname, cURL, ccity, cstate) VALUES (?, ?, ?, ?, ?, ?)`,
-		c.id, c.Pid, c.Cname, c.CURL, c.Ccity, c.Cstate)
+		c.Id, c.Pid, c.Cname, c.CURL, c.Ccity, c.Cstate)
 	if err != nil {
 		return 0, err
 	}
@@ -122,7 +122,7 @@ func (d *DataStore) GetCharitiesByUser(pid int) ([]Charity, error){
 
 	for rows.Next() {
 		ch := new(Charity)
-		err := rows.Scan(&ch.id, &ch.Pid, &ch.Cname, &ch.CURL, &ch.Ccity, &ch.Cstate)
+		err := rows.Scan(&ch.Id, &ch.Pid, &ch.Cname, &ch.CURL, &ch.Ccity, &ch.Cstate)
 		if err != nil {
 			return nil, err
 		}
