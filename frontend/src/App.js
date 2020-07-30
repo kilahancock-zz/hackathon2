@@ -69,16 +69,13 @@ class App extends Component {
     }
   }
   componentDidMount() {
-<<<<<<< HEAD
     /* here we can call ALL the get functions in here
     */
    this.populateResources();
-=======
-    let payload = {
-      zipcode: "48180"
-    }
-    this.getResourcePost("http://localhost:3000/getResources", payload);
->>>>>>> afc80f33ee423142675a47141e211fb89a5a4893
+    // let payload = {
+    //   zipcode: "48180"
+    // }
+    // this.getResourcePost("http://localhost:3000/getResources", payload);
   }
 
   render() {
@@ -128,8 +125,15 @@ class App extends Component {
             <Route path="/organizations">
               <Organizations addFavoriteHandler={this.addFavoriteHandler} />
             </Route>
-            <PrivateRoute authenticated={this.state.user_info.username} path="/profile">
-              <Profile claimItemHandler={this.claimItemHandler} />
+            <Route path="/login">
+            <SignInModal
+          isShown={this.state.modals.isSignInShown}
+          closeModal={this.closeSignInModal}
+          submitModal={this.signInModalSubmitHandler}
+          openSignUpHandler={this.openSignUpModalHandler}
+        />
+            </Route>
+            <PrivateRoute authenticated={this.state.user_info} path="/profile" component={() => <Profile claimItemHandler={this.claimItemHandler} />}>
             </PrivateRoute>
             <Route exact path="*">
               <NotFound></NotFound>
