@@ -8,7 +8,7 @@ import (
 )
 
 type Resource struct {
-	Id      int64
+	id      int64
 	Pid     int64
 	Rname   string
 	Rtype   string
@@ -18,7 +18,7 @@ type Resource struct {
 }
 
 type Charity struct {
-	Id int64
+	id int64
 	Pid int64
 	Cname string
 	CURL string
@@ -32,10 +32,14 @@ type ExistingUser struct {
 }
 
 type Person struct {
-	Id int64
+	id int64
 	Username string
 	Email  string
 	Password string
+	Zipcode string
+}
+
+type Zipcode struct {
 	Zipcode string
 }
 
@@ -90,7 +94,7 @@ func (s *Server) PersonCreate(w http.ResponseWriter, r *http.Request){
 		log.Info().Msg("Wasn't able to save person " + err.Error())
 	}
 
-	p.Id = pid
+	p.id = pid
 
 	log.Info().Msg(fmt.Sprintf("Person: %+v", p))
 
@@ -104,44 +108,53 @@ func (s *Server) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 	// Enable response for all access
 	enableCors(&w)
 
-	switch r.Method {
-	case http.MethodPost:
-		// Declare a new Resource struct.
-		var resource Resource
+	// Declare a new Resource struct.
+	var resource Resource
 
-		// Try to decode the request body into the struct. If there is an error,
-		// respond to the client with the error message and a 400 status code.
-		err := json.NewDecoder(r.Body).Decode(&resource)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
-		id, err := s.ds.SaveResource(resource)
-		if err != nil {
-			// TODO fatalize
-			log.Info().Msg("Wasn't able to save resource " + err.Error())
-		}
-<<<<<<< HEAD
-		resource.Id = id
-=======
-		resource.id = id
-
-		_ = json.NewEncoder(w).Encode(map[string]interface{}{
-			"resourceId": id,
-		})
->>>>>>> development
-	case http.MethodGet:
-		zipCode := "00727"
-		res, err := s.ds.GetResourceByZip(zipCode)
-		if err != nil {
-			// TODO fatalize
-			log.Info().Msg("Wasn't able to read resources " + err.Error())
-		}
-		// TODO json encode
-		_ = json.NewEncoder(w).Encode(res)
+	// Try to decode the request body into the struct. If there is an error,
+	// respond to the client with the error message and a 400 status code.
+	err := json.NewDecoder(r.Body).Decode(&resource)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
+	id, err := s.ds.SaveResource(resource)
+	if err != nil {
+		log.Info().Msg("Wasn't able to save resource " + err.Error())
+	}
+
+	resource.id = id
+
+	_ = json.NewEncoder(w).Encode(map[string]interface{}{
+		"resourceId": id,
+	})
+}
+
+func (s *Server) GetResources(w http.ResponseWriter, r *http.Request) {
+	// Enable response for all access
+	enableCors(&w)
+
+	// Declare a new Resource struct.
+	var zip Zipcode
+
+	// Try to decode the request body into the struct. If there is an error,
+	// respond to the client with the error message and a 400 status code.
+	err := json.NewDecoder(r.Body).Decode(&zip)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	res, err := s.ds.GetResourceByZip(zip.Zipcode)
+	if err != nil {
+		log.Info().Msg("Wasn't able to read resources " + err.Error())
+	}
+
+	// _ = json.NewEncoder(w).Encode(res)
+	_ = json.NewEncoder(w).Encode(map[string]interface{}{
+		"resources": res,
+	})
 }
 
 func (s *Server) CharityHandler(w http.ResponseWriter, r *http.Request) {
@@ -167,7 +180,7 @@ func (s *Server) CharityHandler(w http.ResponseWriter, r *http.Request) {
 			// TODO fatalize
 			log.Info().Msg("Wasn't able to save charity " + err.Error())
 		}
-		charity.Id = id
+		charity.id = id
 	case http.MethodGet:
 		pid := 1
 		res, err := s.ds.GetCharityByUser(pid)
