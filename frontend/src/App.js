@@ -32,7 +32,6 @@ class App extends Component {
     }
   }
   render() {
-    // console.log("state: ", this.state);
     return (
       <div className="App">
         <SignUpModal
@@ -55,7 +54,11 @@ class App extends Component {
         />
         <Router>
           <div className="nav">
-            <Navy signUpClickHandler={this.openSignUpModalHandler} />
+            <Navy
+              signUpClickHandler={this.openSignUpModalHandler}
+              logoutClickHandler={this.logoutClickedHandler}
+              isNotSignedIn={!this.state.user_info.username}
+            />
           </div>
           <Switch>
             <Route exact path="/">
@@ -71,15 +74,27 @@ class App extends Component {
               <Organizations addFavoriteHandler={this.addFavoriteHandler} />
             </Route>
             <Route path="/profile">
-              <Profile/>
+              <Profile claimItemHandler={this.claimItemHandler} />
             </Route>
             <Route exact path="*">
-             <NotFound></NotFound>
+              <NotFound></NotFound>
             </Route>
           </Switch>
         </Router>
       </div>
     )
+  }
+
+  logoutClickedHandler = () => {
+    this.setState({
+      ...this.state,
+      user_info: {
+        email: '',
+        username: '',
+        password: '',
+        zipcode: ''
+      }
+    })
   }
 
   openSignUpModalHandler = () => {
@@ -124,7 +139,8 @@ class App extends Component {
       }
     }
 
-    fetch(url, options);
+    fetch(url, options)
+      .then(response => console.log(response));
   }
 
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
@@ -157,6 +173,20 @@ class App extends Component {
     });
   }
 
+  addFavoriteHandler = () => {
+    console.log("in claim handler");
+    // Send Information to Back-end
+    let payload = {
+      cid: 1,
+      pid: 1,
+      cname: 'hi',
+      cUrl: 'hi'
+    };
+    console.log(payload);
+
+    //this.sendPostBackEnd("http://localhost:3000/charity", payload );
+  }
+
   closeSignInModal = (event) => {
     this.setState({
       ...this.state,
@@ -185,11 +215,11 @@ class App extends Component {
         isSignInShown: false,
       },
 
-        user_info: {
-          ...this.state.user_info,
-          username: username,
-          password: password,
-        },
+      user_info: {
+        ...this.state.user_info,
+        username: username,
+        password: password,
+      },
     });
   }
 
@@ -219,14 +249,19 @@ class App extends Component {
 
     // Send Information to Back-end
     let payload = {
+      id: 1,
       // ? we need personID from App.state
+      pid: 1,
+      // ? we need zipcode from App.state
+      zipcode: '27517',
       request: type === 'Request',
       rtype: category,
-      dsc: description,
-      adnotes: notes
+      rname: description,
+      notes: notes
     };
     console.log(payload);
-    // this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
+    // ! Make sure this works eventually
+    this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
 
     this.setState({
       ...this.state,
@@ -237,7 +272,6 @@ class App extends Component {
         isResourceShown: false
       },
     });
-    //TODO: make API call to register request/donation
   }
 
   addFavoriteHandler = (event) => {
