@@ -143,6 +143,17 @@ class App extends Component {
       .then(response => console.log(response));
   }
 
+  sendGetBackEnd = ( url, payload ) => {
+    const options = {
+      method: 'GET',
+      body: JSON.stringify(payload),
+      mode: "no-cors",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  }
+
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
 
     // Send Information to Back-end
