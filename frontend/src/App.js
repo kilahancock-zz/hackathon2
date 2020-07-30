@@ -20,7 +20,9 @@ class App extends Component {
         email: '',
         username: '',
         password: '',
-        zipcode: ''
+        zipcode: '',
+        // figure this out after sign-up/sign-in
+        id: 0
       },
       modals: {
         isSignInShown: false,
@@ -30,7 +32,6 @@ class App extends Component {
     }
   }
   render() {
-    // console.log("state: ", this.state);
     return (
       <div className="App">
         <SignUpModal
@@ -53,7 +54,11 @@ class App extends Component {
         />
         <Router>
           <div className="nav">
-            <Navy signUpClickHandler={this.openSignUpModalHandler} />
+            <Navy
+              signInClickHandler={this.openSignInModalHandler}
+              logoutClickHandler={this.logoutClickedHandler}
+              isNotSignedIn={!this.state.user_info.username}
+            />
           </div>
           <Switch>
             <Route exact path="/">
@@ -63,21 +68,34 @@ class App extends Component {
               <Community
                 resourceClickHandler={this.openResourceModalHandler}
                 claimItemHandler={this.claimItemHandler}
+                userZipcode={this.state.user_info.zipcode}
               />
             </Route>
             <Route path="/organizations">
               <Organizations addFavoriteHandler={this.addFavoriteHandler} />
             </Route>
             <Route path="/profile">
-              <Profile/>
+              <Profile claimItemHandler={this.claimItemHandler} />
             </Route>
             <Route exact path="*">
-             <NotFound></NotFound>
+              <NotFound></NotFound>
             </Route>
           </Switch>
         </Router>
       </div>
     )
+  }
+
+  logoutClickedHandler = () => {
+    this.setState({
+      ...this.state,
+      user_info: {
+        email: '',
+        username: '',
+        password: '',
+        zipcode: ''
+      }
+    })
   }
 
   openSignUpModalHandler = () => {
@@ -112,7 +130,57 @@ class App extends Component {
     });
   }
 
+  sendPostBackEnd = ( url, payload ) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "text/plain");
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    };
+
+    // woot
+    fetch( url, requestOptions )
+    .then(response => response.json())
+    .then(data => {
+      console.log("result = " + data.personCreate)
+      this.setState({
+        ...this.state,
+        user_info: {
+          ...this.state.user_info,
+          id: data.personCreate,
+        }
+      })
+    })
+    .catch(error => console.log('error', error));
+  }
+
+  sendGetBackEnd = ( url, payload ) => {
+    const options = {
+      method: 'GET',
+      body: JSON.stringify(payload),
+      mode: "no-cors",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  }
+
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
+
+    // Send Information to Back-end
+    let payload = {
+      username: username,
+      email: email,
+      password: password,
+      zipcode: zipcode
+    };
+
+    this.sendPostBackEnd("http://localhost:3000/signup", payload );
+
+    // Update State
     this.setState({
       ...this.state,
       modals: {
@@ -128,7 +196,20 @@ class App extends Component {
         zipcode: zipcode
       },
     });
-    //TODO: make API call to sign up a new user
+  }
+
+  addFavoriteHandler = (orgName, orgURL, orgCity, orgState) => {
+
+    let payload = {
+      id: 1,
+      pid: 1,
+      cname: orgName,
+      cUrl: orgURL,
+      ccity: orgCity,
+      cstate: orgState
+    };
+
+    this.sendPostBackEnd("http://localhost:3000/charity", payload );
   }
 
   closeSignInModal = (event) => {
@@ -142,8 +223,15 @@ class App extends Component {
   }
 
   signInModalSubmitHandler = (username, password) => {
-    //Todo: API Call to get info
     console.log("Username and pw submitted: ", username, password);
+    // Send Information to Back-end
+    let payload = {
+      username: username,
+      password: password,
+    };
+
+    // this.sendPostBackEnd("http://localhost:3000/login", payload );
+
     this.setState({
       ...this.state,
       modals: {
@@ -152,11 +240,11 @@ class App extends Component {
         isSignInShown: false,
       },
 
-        user_info: {
-          ...this.state.user_info,
-          username: username,
-          password: password,
-        },
+      user_info: {
+        ...this.state.user_info,
+        username: username,
+        password: password,
+      },
     });
   }
 
@@ -183,6 +271,23 @@ class App extends Component {
   }
 
   resourceModalSubmitHandler = (type, category, description, notes) => {
+
+    // Send Information to Back-end
+    let payload = {
+      id: 1,
+      // ? we need personID from App.state
+      pid: 1,
+      // ? we need zipcode from App.state
+      zipcode: '27517',
+      request: type === 'Request',
+      rtype: category,
+      rname: description,
+      dsc: notes
+    };
+    console.log(payload);
+    // ! Make sure this works eventually
+    this.sendPostBackEnd("http://localhost:3000/submitResource", payload );
+
     this.setState({
       ...this.state,
       modals: {
@@ -192,11 +297,6 @@ class App extends Component {
         isResourceShown: false
       },
     });
-    //TODO: make API call to register request/donation
-  }
-
-  addFavoriteHandler = (event) => {
-    //TODO: make API call to add organization to user's favorites 
   }
 
   claimItemHandler = (event) => {

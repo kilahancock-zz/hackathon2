@@ -1,0 +1,13 @@
+.vertDivide {
+    border-left: 1px solid black;
+    height: auto;
+}
+
+.colContainer {
+    display: inline-flex;
+}
+
+.searchCol {
+    height: max-content;
+    display: inline-flex;
+}

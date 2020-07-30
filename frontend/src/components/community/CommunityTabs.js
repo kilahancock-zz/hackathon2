@@ -3,11 +3,12 @@ import { Tabs, Tab } from 'react-bootstrap'
 import RequestedTable from './RequestedTable.js';
 import AvailableTable from './AvailableTable.js';
 
+
 class CommunityTabs extends Component {
   constructor (props) {
     super (props);
     this.state = {
-      currentTab: 'requested'
+      currentTab: 'requested',
     }
   }
 

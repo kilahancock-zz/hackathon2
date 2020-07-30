@@ -13,3 +13,8 @@
 .title a:hover {
     color: #000;
 }
+
+.dropdown-menu {
+  max-height: 150px;
+  overflow-y: auto;
+}
