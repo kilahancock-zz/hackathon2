@@ -384,7 +384,7 @@ class App extends Component {
   }
 
   populateResources = () => {
-    let url = "http://localhost:3000/resource";
+    let url = "http://localhost:3000/getResources";
     let payload = {
       zipcode: this.state.zipcode
     };
