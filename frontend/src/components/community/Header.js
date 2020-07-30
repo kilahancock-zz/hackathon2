@@ -15,7 +15,7 @@ class Header extends Component {
             <div className={classes.searchCol}>
               <Form.Label className="mx-sm-3">Zipcode</Form.Label>
               <Form.Control className="mx-sm-6" defaultValue={this.props.userZipcode} onChange={this.props.updateZip}/>
-              <Button className="mx-sm-3">Search</Button>
+              <Button className="mx-sm-3" onClick={this.props.searchHandler}>Search</Button>
             </div>
           </Col>
           <div className={classes.vertDivide} />

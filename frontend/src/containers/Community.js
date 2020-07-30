@@ -16,6 +16,7 @@ class Community extends Component {
           resourceClickHandler={this.props.resourceClickHandler}
           userZipcode={this.props.userZipcode}
           updateZip={this.onZipChange}
+          searchHandler={this.onSearch}
         />
         <CommunityTabs 
         claimItemHandler={this.props.claimItemHandler}
@@ -32,6 +33,11 @@ class Community extends Component {
       ...this.state,
         enteredZipcode: e.target.value
     });
+  }
+
+  onSearch = () => {
+    console.log("Search called in Community");
+    this.props.searchHandler(this.state.enteredZipcode);
   }
 }
 
