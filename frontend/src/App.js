@@ -173,16 +173,18 @@ class App extends Component {
     });
   }
 
-  addFavoriteHandler = (orgName, orgURL) => {
+  addFavoriteHandler = (orgName, orgURL, orgCity, orgState) => {
 
     let payload = {
-      cid: 1,
+      id: 1,
       pid: 1,
       cname: orgName,
-      cUrl: orgURL
+      cUrl: orgURL,
+      ccity: orgCity,
+      cstate: orgState
     };
 
-    //this.sendPostBackEnd("http://localhost:3000/charity", payload );
+    this.sendPostBackEnd("http://localhost:3000/charity", payload );
   }
 
   closeSignInModal = (event) => {
