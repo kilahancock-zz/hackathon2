@@ -77,7 +77,7 @@ func (d *DataStore) SaveCharity(c Charity) (int64, error) {
 	d.Logger.Info().Msg(fmt.Sprintf("We're adding this charity to the db: %+v", c))
 
 	res, err := d.db.Exec(`INSERT INTO Charities (id, pid, cname, cURL, ccity, cstate) VALUES (?, ?, ?, ?, ?, ?)`,
-		c.id, c.pid, c.cname, c.cURL, c.ccity, c.cstate)
+		c.id, c.Pid, c.Cname, c.CURL, c.Ccity, c.Cstate)
 	if err != nil {
 		return 0, err
 	}
@@ -97,7 +97,7 @@ func (d *DataStore) GetCharityByUser(pid int) ([]Charity, error){
 
 	for rows.Next() {
 		ch := new(Charity)
-		err := rows.Scan(&ch.id, &ch.pid, &ch.cname, &ch.cURL, &ch.ccity, &ch.cstate)
+		err := rows.Scan(&ch.id, &ch.Pid, &ch.Cname, &ch.CURL, &ch.Ccity, &ch.Cstate)
 		if err != nil {
 			return nil, err
 		}

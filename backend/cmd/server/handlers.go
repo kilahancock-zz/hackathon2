@@ -19,11 +19,11 @@ type Resource struct {
 
 type Charity struct {
 	id int64
-	pid int64
-	cname string
-	cURL string
-	ccity string
-	cstate string
+	Pid int64
+	Cname string
+	CURL string
+	Ccity string
+	Cstate string
 }
 
 type ExistingUser struct {
