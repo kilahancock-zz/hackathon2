@@ -292,7 +292,7 @@ class App extends Component {
     };
     console.log(payload);
     this.sendResourcePost("http://localhost:3000/postResource", payload );
-
+    
     this.setState({
       ...this.state,
       modals: {

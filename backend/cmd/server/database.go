@@ -50,14 +50,14 @@ func (d *DataStore) SaveResource(r Resource) (int64, error) {
 func (d *DataStore) GetResourceByZip(zipCode string) ([]Resource, error){
 	res := make([]Resource, 0)
 
-	rows, err := d.db.Query(`SELECT * FROM Resources WHERE zipcode=?`,zipCode)
+	rows, err := d.db.Query(`SELECT * FROM Resources`)
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
 		rs := new(Resource)
-		err := rows.Scan(&rs.id, &rs.Pid, &rs.Rname, &rs.Rtype, &rs.Request, &rs.Dsc, &rs.Zipcode)
+		err := rows.Scan(&rs.id, &rs.Rname, &rs.Pid, &rs.Request, &rs.Rtype, &rs.Dsc, &rs.Zipcode)
 		if err != nil {
 			return nil, err
 		}
