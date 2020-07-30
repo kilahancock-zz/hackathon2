@@ -17,7 +17,12 @@ class Community extends Component {
           userZipcode={this.props.userZipcode}
           updateZip={this.onZipChange}
         />
-        <CommunityTabs claimItemHandler={this.props.claimItemHandler} zipcode={this.state.zipcode} />
+        <CommunityTabs 
+        claimItemHandler={this.props.claimItemHandler}
+        zipcode={this.state.zipcode}
+        requests={this.props.requests}
+        donations={this.props.donations}
+         />
       </div>
     )
   }

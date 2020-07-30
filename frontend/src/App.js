@@ -28,8 +28,47 @@ class App extends Component {
         isSignInShown: false,
         isSignUpShown: false,
         isResourceShown: false,
-      }
+      },
+      resources: {
+        donations: [
+          {
+            foodType: 'Donation',
+            foodRequest: 'Carrots and tomatoes',
+            additionalNotes: 'Need bite sized items for my child',
+            allergies: 'Gluten allergy',
+            zipcode: '27517'
+        }
+        ],
+        requests: [
+          {
+              foodType: 'Produce',
+              foodRequest: 'Carrots and tomatoes',
+              additionalNotes: 'Need bite sized items for my child',
+              allergies: 'Gluten allergy',
+              zipcode: '27517'
+          },
+          {
+              foodType: 'Produce',
+              foodRequest: 'Carrots and tomatoes',
+              additionalNotes: 'Need bite sized items for my child',
+              allergies: 'Gluten allergy',
+              zipcode: '27517'
+          },
+          {
+              foodType: 'Produce',
+              foodRequest: 'Carrots and tomatoes',
+              additionalNotes: 'Need bite sized items for my child',
+              allergies: 'Gluten allergy',
+              zipcode: '27517'
+          }
+      ],
+      },
+      organizations: []
     }
+  }
+  componentDidMount() {
+    /* here we can call ALL the get functions in here
+    */
   }
   render() {
     return (
@@ -69,6 +108,8 @@ class App extends Component {
                 resourceClickHandler={this.openResourceModalHandler}
                 claimItemHandler={this.claimItemHandler}
                 userZipcode={this.state.user_info.zipcode}
+                requests={this.state.resources.requests}
+                donations={this.state.resources.donations}
               />
             </Route>
             <Route path="/organizations">
