@@ -131,17 +131,30 @@ class App extends Component {
   }
 
   sendPostBackEnd = ( url, payload ) => {
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(payload),
-      mode: "no-cors",
-      headers: {
-          'Content-Type': 'application/json'
-      }
-    }
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "text/plain");
 
-    fetch(url, options)
-      .then(response => console.log(response));
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    };
+
+    // woot
+    fetch( url, requestOptions )
+    .then(response => response.json())
+    .then(data => {
+      console.log("result = " + data.personCreate)
+      this.setState({
+        ...this.state,
+        user_info: {
+          ...this.state.user_info,
+          id: data.personCreate,
+        }
+      })
+    })
+    .catch(error => console.log('error', error));
   }
 
   sendGetBackEnd = ( url, payload ) => {
@@ -166,7 +179,7 @@ class App extends Component {
     };
 
     this.sendPostBackEnd("http://localhost:3000/signup", payload );
-    
+
     // Update State
     this.setState({
       ...this.state,
@@ -217,7 +230,7 @@ class App extends Component {
       password: password,
     };
 
-    this.sendPostBackEnd("http://localhost:3000/login", payload );
+    // this.sendPostBackEnd("http://localhost:3000/login", payload );
 
     this.setState({
       ...this.state,
