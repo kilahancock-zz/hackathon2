@@ -5,8 +5,8 @@ create table Test_Table (
 CREATE TABLE Person (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(15),
-    password CHAR(64),
     email VARCHAR(50),
+    password CHAR(64),
     zipcode char(5)
 );
 
