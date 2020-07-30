@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { errorMessages, createTextInputRow, createAlertRow } from './util.js';
+import Form from 'react-bootstrap/Form';
 
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
@@ -52,12 +53,17 @@ class SignUpModal extends Component {
 
                             {createTextInputRow("Re-enter Password", this._passwordReenterChangeHandler)}
                             {createAlertRow(this.state.errors.password_reentered, errorMessages["password_reentered"])}
-                            
-                            {createTextInputRow("Zipcode", this._zipcodeChangeHandler)}
+
+                            <tr>
+                                <td><Form.Label >Zipcode</Form.Label></td>
+                                <td><Form.Control className="mx-sm-3" onChange={this._zipcodeChangeHandler} />
+                                <Form.Text muted>*Your zipcode is used to identify your community</Form.Text>
+                                </td>
+                                
+                            </tr>
                             {createAlertRow(this.state.errors.zipcode, errorMessages["zipcode"])}
                         </tbody>
                     </Table>
-                    <small>*Your zipcode is used to identify your community</small>
                     <br />
                 </Modal.Body>
                 <Modal.Footer>

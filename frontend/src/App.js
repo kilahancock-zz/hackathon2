@@ -66,6 +66,7 @@ class App extends Component {
               <Community
                 resourceClickHandler={this.openResourceModalHandler}
                 claimItemHandler={this.claimItemHandler}
+                userZipcode={this.state.user_info.zipcode}
               />
             </Route>
             <Route path="/organizations">

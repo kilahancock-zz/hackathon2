@@ -30,3 +30,7 @@
     font-weight: bold;
     margin: 0 auto;
 }
+
+.form-text {
+    padding-left: 10px;
+}
