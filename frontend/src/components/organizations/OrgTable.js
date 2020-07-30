@@ -20,7 +20,6 @@ class OrgTable extends Component {
       .then(response => {
         for (let i = 0; i < response.length; i++) {
             temp.push(response[i]);
-            console.log(temp[i])
         }
         this.setState({orgs: temp, selectedState: state})
     });
@@ -93,7 +92,7 @@ class OrgTable extends Component {
               <Card.Text>{ReactHtmlParser(org.mission)}</Card.Text>
               <Card.Footer>{org.mailingAddress.city}, {org.mailingAddress.stateOrProvince}</Card.Footer>
               <Card.Footer>
-                <Button onClick={this.props.addFavoriteHandler}>Add to Favorites</Button>
+                <Button onClick={() => this.props.addFavoriteHandler}>Add to Favorites</Button>
               </Card.Footer>
             </Card>
           ))}

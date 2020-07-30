@@ -173,6 +173,20 @@ class App extends Component {
     });
   }
 
+  addFavoriteHandler = () => {
+    console.log("in claim handler");
+    // Send Information to Back-end
+    let payload = {
+      cid: 1,
+      pid: 1,
+      cname: 'hi',
+      cUrl: 'hi'
+    };
+    console.log(payload);
+
+    //this.sendPostBackEnd("http://localhost:3000/charity", payload );
+  }
+
   closeSignInModal = (event) => {
     this.setState({
       ...this.state,
@@ -258,7 +272,6 @@ class App extends Component {
         isResourceShown: false
       },
     });
-    //TODO: make API call to register request/donation
   }
 
   addFavoriteHandler = (event) => {
