@@ -116,20 +116,20 @@ class App extends Component {
   }
 
   sendPostBackEnd = ( url, payload ) => {
-    const options = {
-      method: 'POST',
-      // mode: 'no-cors',
-      body: JSON.stringify(payload),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "text/plain");
 
-    fetch(url, options)
-    .then((response) => {
-      console.log(response.data);
-    })
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    };
+
+    fetch( url, requestOptions )
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
   }
 
   signUpModalSubmitHandler = (username, email, password, zipcode) => {
@@ -143,11 +143,6 @@ class App extends Component {
     };
 
     this.sendPostBackEnd("http://localhost:3000/signup", payload );
-    
-    axios.get('http://localhost:3000/signup')
-    .then((response) => {
-      console.log(response.data);
-    })
 
     // Update State
     this.setState({
@@ -185,7 +180,7 @@ class App extends Component {
       password: password,
     };
 
-    this.sendPostBackEnd("http://localhost:3000/login", payload );
+    // this.sendPostBackEnd("http://localhost:3000/login", payload );
 
     this.setState({
       ...this.state,
