@@ -366,7 +366,7 @@ class App extends Component {
       let requestArr = [];
       let donationArr = [];
       for (let i = 0; i < data.resources.length; i++) {
-        if (data.resources[i].request) {
+        if (data.resources[i].Request) {
           requestArr.push(data.resources[i]);
         } else {
           donationArr.push(data.resources[i]);
@@ -385,7 +385,7 @@ class App extends Component {
   }
 
   populateResources = () => {
-    let url = "http://localhost:3000/resource";
+    let url = "http://localhost:3000/getResources";
     let payload = {
       zipcode: this.state.zipcode
     };
