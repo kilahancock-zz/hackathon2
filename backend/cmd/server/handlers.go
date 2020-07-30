@@ -39,6 +39,10 @@ type Person struct {
 	Zipcode string
 }
 
+type Zipcode struct {
+	Zipcode string
+}
+
 func Health(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w);
 	_ = json.NewEncoder(w).Encode(map[string]interface{}{
@@ -104,25 +108,58 @@ func (s *Server) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 	// Enable response for all access
 	enableCors(&w)
 
-	switch r.Method {
-	case http.MethodPost:
-		// Declare a new Resource struct.
-		var resource Resource
+	// Declare a new Resource struct.
+	var resource Resource
 
-		// Try to decode the request body into the struct. If there is an error,
-		// respond to the client with the error message and a 400 status code.
-		err := json.NewDecoder(r.Body).Decode(&resource)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
+	// Try to decode the request body into the struct. If there is an error,
+	// respond to the client with the error message and a 400 status code.
+	err := json.NewDecoder(r.Body).Decode(&resource)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 
+<<<<<<< HEAD
+	id, err := s.ds.SaveResource(resource)
+	if err != nil {
+		log.Info().Msg("Wasn't able to save resource " + err.Error())
+	}
+
+	resource.id = id
+
+	_ = json.NewEncoder(w).Encode(map[string]interface{}{
+		"resourceId": id,
+	})
+}
+
+func (s *Server) GetResources(w http.ResponseWriter, r *http.Request) {
+	// Enable response for all access
+	enableCors(&w)
+
+	// Declare a new Resource struct.
+	var zip Zipcode
+
+	// Try to decode the request body into the struct. If there is an error,
+	// respond to the client with the error message and a 400 status code.
+	err := json.NewDecoder(r.Body).Decode(&zip)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+=======
 		id, err := s.ds.SaveResource(resource)
 		if err != nil {
 			// TODO fatalize
 			log.Info().Msg("Wasn't able to save resource " + err.Error())
 		}
+<<<<<<< HEAD
 		resource.Id = id
+=======
+		resource.id = id
+
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
+			"resourceId": id,
+		})
+>>>>>>> development
 	case http.MethodGet:
 		zipCode := "00727"
 		res, err := s.ds.GetResourceByZip(zipCode)
@@ -132,8 +169,18 @@ func (s *Server) ResourceHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		// TODO json encode
 		_ = json.NewEncoder(w).Encode(res)
+>>>>>>> 0f704ebf5bd8dab7835596f88a476cc4e790970f
 	}
 
+	res, err := s.ds.GetResourceByZip(zip.Zipcode)
+	if err != nil {
+		log.Info().Msg("Wasn't able to read resources " + err.Error())
+	}
+
+	// _ = json.NewEncoder(w).Encode(res)
+	_ = json.NewEncoder(w).Encode(map[string]interface{}{
+		"resources": res,
+	})
 }
 
 func (s *Server) CharityHandler(w http.ResponseWriter, r *http.Request) {
