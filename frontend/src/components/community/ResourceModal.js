@@ -11,13 +11,12 @@ class ResourceModal extends Component {
         super(props);
 
         this.state = {
-            resourceType: '',
-            category: '',
+            resourceType: 'Request',
+            category: 'Produce',
             description: '',
             notes: '',
         };
     }
-
 
     render() {
         let disclaimer = 'Include allergies and dietary restrictions here.';
@@ -55,6 +54,7 @@ class ResourceModal extends Component {
             this.state.description,
             this.state.notes
         );
+        this._clearState();
     }
 
     _createTextInputRow = (label, onChangeHandler) => {
@@ -109,7 +109,7 @@ class ResourceModal extends Component {
 
     _resourceTypeChangeHandler = (e) => {
         this.setState({
-          type: e.target.value
+          resourceType: e.target.value
         })
     }
 
@@ -121,13 +121,22 @@ class ResourceModal extends Component {
 
     _descriptionChangeHandler = (e) => {
         this.setState({
-            items: e.target.value
+            description: e.target.value
         })
     }
 
     _notesChangeHandler = (e) => {
         this.setState({
             notes: e.target.value
+        })
+    }
+
+    _clearState = () => {
+        this.setState({
+            resourceType: 'Request',
+            category: 'Produce',
+            description: '',
+            notes: '',    
         })
     }
 }
